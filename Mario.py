@@ -1,11 +1,9 @@
 from pico2d import *
-
 import GM
-from GM import running
 
 class Mario :
-    TIME_PER_ACTION = 1.5
-    ACTION_PER_TIME = 0.1 / TIME_PER_ACTION
+    TIME_PER_ACTION = 0.5
+    ACTION_PER_TIME = 0.5 / TIME_PER_ACTION
     FRAMES_PER_ACTION = 4
     total_frames = 0.0
 

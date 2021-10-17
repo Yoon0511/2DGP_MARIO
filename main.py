@@ -27,7 +27,7 @@ while GM.running:
     #handle_events()
     clear_canvas()
 
-    mario.update(current_time)
+    mario.update(frame_time)
 
     map.draw()
     mario.draw()
