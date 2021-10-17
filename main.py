@@ -15,19 +15,29 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
 
+def map_offset():
+    mx,my = mario.get_pos()
+    offsetx = GAME_WIDTH/2
+    gap = 0
+    if mx >= offsetx:
+        gap = mx - offsetx
+        mario.set_addpos(-gap,0)
+    for block in map.blocks:
+        block.offet_pos(-gap,0)
+
 open_canvas(GAME_WIDTH,GAME_HEIGHT)
 mario = Mario()
-current_time = time.process_time()
+current_time = time.time()
 map = MAP()
 map.setup()
 
 while GM.running:
-    frame_time = time.process_time() - current_time
+    frame_time = time.time() - current_time
     current_time += frame_time
     #handle_events()
     clear_canvas()
-
     mario.update(frame_time)
+    map_offset()
 
     map.draw()
     mario.draw()
