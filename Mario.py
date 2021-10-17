@@ -1,10 +1,8 @@
 from pico2d import *
-import GM
-from GM import running
 
-class Mario :
-    TIME_PER_ACTION = 1.5
-    ACTION_PER_TIME = 0.1 / TIME_PER_ACTION
+class MARIO:
+    TIME_PER_ACTION = 0.2
+    ACTION_PER_TIME = 0.5 / TIME_PER_ACTION
     FRAMES_PER_ACTION = 4
     total_frames = 0.0
 
@@ -31,6 +29,9 @@ class Mario :
         self.x += x
         self.y += y
 
+    def get_bb(self):
+        return self.x - 25,self.y - 25,self.x + 25,self.y + 25
+
     def draw_walk(self):
         if self.dir == 0:
             self.img.clip_draw(self.walk_frame * self.weith,0,self.weith,self.height,self.x,self.y)
@@ -56,9 +57,9 @@ class Mario :
         events = get_events()
         for event in events:
             if event.type == SDL_QUIT:
-               GM.running = False
+               running = False
             elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-               GM.running = False
+               running = False
 
             if event.type == SDL_KEYDOWN:
                 if event.key == SDLK_d:

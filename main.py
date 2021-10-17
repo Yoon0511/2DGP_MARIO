@@ -1,8 +1,8 @@
 from pico2d import *
 import time
-from Mario import *
+#from Mario import *
 from GM import *
-from Map import *
+#from Map import *
 
 GAME_WIDTH,GAME_HEIGHT = 1280,800
 
@@ -16,13 +16,12 @@ def handle_events():
             running = False
 
 
-
 open_canvas(GAME_WIDTH,GAME_HEIGHT)
-mario = Mario()
-current_time = time.process_time()
-map = MAP()
-map.setup()
-
+#mario = Mario()
+current_time = time.time()
+#map = MAP()
+#map.setup()
+global running
 def map_offset():
     mx,my = mario.get_pos()
     offsetx = GAME_WIDTH/2
@@ -33,13 +32,13 @@ def map_offset():
     for block in map.blocks:
         block.offet_pos(-gap,0)
 
-while GM.running:
-    frame_time = time.process_time() - current_time
+while running:
+    frame_time = time.time() - current_time
     current_time += frame_time
     #handle_events()
     clear_canvas()
 
-    mario.update(current_time)
+    mario.update(frame_time)
     map_offset()
 
     map.draw()
