@@ -1,6 +1,8 @@
 from pico2d import *
 import time
 from Mario import *
+from GM import *
+from Map import *
 
 def handle_events():
     global running
@@ -14,14 +16,17 @@ def handle_events():
 open_canvas(1280,800)
 mario = Mario()
 current_time = time.process_time()
-running = True
+map = MAP()
+map.setup()
 
-while running:
+while GM.running:
     frame_time = time.process_time() - current_time
     current_time += frame_time
     #handle_events()
     clear_canvas()
     mario.update(current_time)
+
+    map.draw()
     mario.draw()
 
     update_canvas()
