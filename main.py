@@ -4,6 +4,8 @@ from Mario import *
 from GM import *
 from Map import *
 
+GAME_WIDTH,GAME_HEIGHT = 1280,800
+
 def handle_events():
     global running
     events = get_events()
@@ -13,7 +15,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             running = False
 
-open_canvas(1280,800)
+open_canvas(GAME_WIDTH,GAME_HEIGHT)
 mario = Mario()
 current_time = time.process_time()
 map = MAP()
@@ -24,6 +26,7 @@ while GM.running:
     current_time += frame_time
     #handle_events()
     clear_canvas()
+
     mario.update(current_time)
 
     map.draw()

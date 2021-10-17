@@ -23,7 +23,10 @@ class MAP:
                 continue
 
             bl = block()
-            bl.set_pos(x - 25, y - 50,a)
+            if a == '6' or a == '7':
+                bl.set_pos(x - 25, y - 50, 'bitem')
+            else:
+                bl.set_pos(x - 25, y - 50,a)
             self.blocks.append(bl)
             x += 50
 
