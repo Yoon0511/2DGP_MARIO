@@ -11,6 +11,7 @@ class Mario :
     def __init__(self):
         self.x,self.y = 100,100
         self.state = {'IDLE':True,'WALK':False,'JUMP':False}
+        self.presskey = {'LEFT':False,'RIGHT':False}
         self.speed = 3
         self.frame = 0
         self.img = load_image("mario.png")
@@ -43,12 +44,11 @@ class Mario :
 
             if event.type == SDL_KEYDOWN:
                 if event.key == SDLK_d:
-                    #self.state = 'WALK'
                     self.dir = 0
-                    self.set_state(False,True,False)
+                    self.presskey['RIGHT'] = True
                 elif event.key == SDLK_a:
                     self.dir = 1
-                    self.set_state(False, True, False)
+                    self.presskey['LEFT'] = True
                 elif event.key == SDLK_w:
                     if self.jump == True:
                         self.state['JUMP'] = True
@@ -56,8 +56,10 @@ class Mario :
                         self.jump = False
 
             elif event.type == SDL_KEYUP:
-                if event.key == SDLK_d or event.key == SDLK_a:
-                    self.set_state(True,False,False)
+                if event.key == SDLK_d:
+                    self.presskey['RIGHT'] = False
+                elif event.key == SDLK_a:
+                    self.presskey['LEFT'] = False
 
     def set_state(self,idle,walk,jump):
         self.state['IDLE'] = idle
@@ -83,21 +85,24 @@ class Mario :
         #     self.idle_frame = int(self.total_frames) % 13
         # if self.state == 'JUMP':
         #     self.idle_frame = int(self.total_frames) % 13
+        # 각 상태에 대한 애니메이션
         for key,value in self.state.items():
             if key == 'WALK' and value == True:
-                if self.dir == 0:
-                    self.x += self.speed
-                elif self.dir == 1:
-                    self.x -= self.speed
                 self.walk_frame = int(self.total_frames) % 13
             if key == 'IDLE' and value == True:
                 self.idle_frame = int(self.total_frames) % 13
             if key == 'JUMP' and value == True:
                 self.idle_frame = int(self.total_frames) % 13
 
+        if self.presskey['RIGHT']:
+            self.x += self.speed
+        elif self.presskey['LEFT']:
+            self.x -= self.speed
+        #점프
         if self.jump == False:
             self.dropSpeed -= 0.5
 
+        #중력
         if self.dropSpeed < 0:
             if (self.y + self.dropSpeed) < 100:
                 self.y = 100
