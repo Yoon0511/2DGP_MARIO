@@ -22,9 +22,18 @@ class block:
         self.x,self.y = x,y
         self.type = type
 
+    def get_pos(self):
+        return self.x,self.y
+
     def offet_pos(self,x,y):
         self.x += x
         self.y += y
+
+    def get_bb(self):
+        return self.x - 25,self.y + 25,self.x + 25,self.y - 25
+
+    def get_type(self):
+        return self.type
 
     def draw(self):
         if self.type == '0':

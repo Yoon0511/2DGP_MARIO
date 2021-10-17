@@ -26,6 +26,9 @@ class Mario :
     def get_pos(self):
         return self.x,self.y
 
+    def get_bb(self):
+        return self.x - 25,self.y + 25,self.x + 25,self.y - 25
+
     def set_addpos(self,x,y):
         self.x += x
         self.y += y
