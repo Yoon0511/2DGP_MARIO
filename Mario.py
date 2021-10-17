@@ -1,5 +1,4 @@
 from pico2d import *
-
 import GM
 from GM import running
 
@@ -23,6 +22,14 @@ class Mario :
         self.dropSpeed = 0
         self.dir = 0
         self.weith,self.height = 50,50
+        self.jump_power,self.gravity = 16,0.5
+
+    def get_pos(self):
+        return self.x,self.y
+
+    def set_addpos(self,x,y):
+        self.x += x
+        self.y += y
 
     def draw_walk(self):
         if self.dir == 0:
@@ -63,7 +70,7 @@ class Mario :
                 elif event.key == SDLK_w:
                     if self.jump == True:
                         self.set_state(False,False,True)
-                        self.dropSpeed = 12
+                        self.dropSpeed = self.jump_power
                         self.jump = False
 
             elif event.type == SDL_KEYUP:
@@ -104,7 +111,7 @@ class Mario :
                 self.set_state(True,False,False)
         #점프
         if self.jump == False:
-            self.dropSpeed -= 0.5
+            self.dropSpeed -= self.gravity
 
         #중력
         if self.dropSpeed < 0:

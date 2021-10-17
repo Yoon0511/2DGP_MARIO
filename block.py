@@ -22,6 +22,10 @@ class block:
         self.x,self.y = x,y
         self.type = type
 
+    def offet_pos(self,x,y):
+        self.x += x
+        self.y += y
+
     def draw(self):
         if self.type == '0':
             self.b0.draw(self.x,self.y,50,50)
