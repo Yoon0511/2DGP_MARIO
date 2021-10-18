@@ -52,14 +52,20 @@ def collision():
             if gapx > gapy:
                 if not block.get_type() == '0':  # 하늘이 아닌 모든 블록
                     if b == True:
-                        mario.set_addpos(0,gapy + 0.1)
-                        mario.dropSpeed = 0
-                        mario.jump = True
-                        mario.set_state(True,False,False)
+                        #mario.set_addpos(0,gapy + 0.01)
+                        if mario.jump == False:
+                            mario.set_pos(mx,btop + 25)
+                            mario.dropSpeed = 0
+                            mario.jump = True
+                            mario.set_state(True,False,False)
                     if t == True:
                         mario.dropSpeed = 0
                         mario.jump = False
                         mario.set_addpos(0, -gapy)
+                if block.get_type() == '0': # 하늘블록처리 마리오 발밑이 하늘블록일때
+                    if not mario.get_check_state('JUMP'):
+                        if b == True:
+                            mario.jump = False
             else:
                 if not block.get_type() == '0':
                     if l == True:

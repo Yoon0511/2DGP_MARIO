@@ -33,6 +33,12 @@ class Mario :
         self.x += x
         self.y += y
 
+    def set_pos(self,x,y):
+        self.x,self.y = x,y
+
+    def get_check_state(self,state):
+        return self.state[state]
+
     def draw_walk(self):
         if self.dir == 0:
             self.img.clip_draw(self.walk_frame * self.weith,0,self.weith,self.height,self.x,self.y)
