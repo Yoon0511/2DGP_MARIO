@@ -2,7 +2,7 @@ from pico2d import *
 import GM
 
 class Mario :
-    TIME_PER_ACTION = 0.2
+    TIME_PER_ACTION = 0.1
     ACTION_PER_TIME = 0.5 / TIME_PER_ACTION
     FRAMES_PER_ACTION = 4
     total_frames = 0.0
@@ -11,7 +11,7 @@ class Mario :
         self.x,self.y = 100,125
         self.state = {'IDLE':True,'WALK':False,'JUMP':False}
         self.presskey = {'LEFT':False,'RIGHT':False}
-        self.speed = 100
+        self.speed = 200
         self.frame = 0
         #self.img = load_image('mario.png')
         self.img = load_image('m1.png')

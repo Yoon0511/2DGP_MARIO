@@ -37,10 +37,10 @@ def collision():
 
             gapx,gapy = 0,0
                 # 마리오 기준충돌위치
-            if mx > bx : #왼쪽충돌 +
+            if mx >= bx : #왼쪽충돌 +
                 gapx = bright - mleft
                 l = True
-            elif mx < bx: #오른쪽충돌 -
+            elif mx <= bx: #오른쪽충돌 -
                 gapx = mright - bleft
                 r = True
             if my >= by : #아래 충돌 +
@@ -49,6 +49,7 @@ def collision():
             elif my <= by: #위 충돌 -
                 gapy = mtop - bbottom
                 t = True
+
 
             if gapx > gapy:
                 if not block.get_type() == '0':  # 하늘이 아닌 모든 블록
@@ -71,9 +72,9 @@ def collision():
             else:
                 if not block.get_type() == '0' and not block.get_type() == '1':
                     if l == True:
-                        mario.set_addpos(gapx,0)
+                        mario.set_addpos(gapx + 0.01,0)
                     if r == True:
-                        mario.set_addpos(-gapx, 0)
+                        mario.set_addpos(-gapx - 0.01, 0)
 
 open_canvas(GAME_WIDTH,GAME_HEIGHT)
 mario = Mario()
