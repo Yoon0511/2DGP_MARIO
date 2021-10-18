@@ -27,13 +27,14 @@ def map_offset():
 
 def collision():
     mleft,mtop,mright,mbottom = mario.get_bb()
-
+    isskyblock = True
     for block in map.blocks:
         bleft,btop,bright,bbottom = block.get_bb()
         if mleft <= bright and mtop >= bbottom and mright >= bleft and mbottom <= btop:
             mx,my = mario.get_pos()
             bx,by = block.get_pos()
             l,r,b,t = False,False,False,False
+
             gapx,gapy = 0,0
                 # 마리오 기준충돌위치
             if mx > bx : #왼쪽충돌 +
@@ -51,10 +52,11 @@ def collision():
 
             if gapx > gapy:
                 if not block.get_type() == '0':  # 하늘이 아닌 모든 블록
+                    isskyblock = False
                     if b == True:
                         #mario.set_addpos(0,gapy + 0.01)
                         if mario.jump == False:
-                            mario.set_pos(mx,btop + 25)
+                            mario.set_addpos(0,gapy)
                             mario.dropSpeed = 0
                             mario.jump = True
                             mario.set_state(True,False,False)
@@ -62,17 +64,17 @@ def collision():
                         mario.dropSpeed = 0
                         mario.jump = False
                         mario.set_addpos(0, -gapy)
-                if block.get_type() == '0': # 하늘블록처리 마리오 발밑이 하늘블록일때
+                if block.get_type() == '0' and isskyblock == True: # 하늘블록처리 마리오 발밑이 하늘블록일때
                     if not mario.get_check_state('JUMP'):
                         if b == True:
                             mario.jump = False
             else:
                 if not block.get_type() == '0':
                     if l == True:
-                        #print('l')
+                        print('l')
                         mario.set_addpos(gapx + 1,0)
                     if r == True:
-                        #print('r')
+                        print('r')
                         mario.set_addpos(-gapx, 0)
 
 
