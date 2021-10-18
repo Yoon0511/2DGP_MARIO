@@ -31,36 +31,37 @@ def collision():
     for block in map.blocks:
         bleft,btop,bright,bbottom = block.get_bb()
         if mleft <= bright and mtop >= bbottom and mright >= bleft and mbottom <= btop:
-            if block.get_type() == 'bitem' or block.get_type() == '3':
-                mx,my = mario.get_pos()
-                bx,by = block.get_pos()
-                l,r,b,t = False,False,False,False
-                gapx,gapy = 0,0
+            mx,my = mario.get_pos()
+            bx,by = block.get_pos()
+            l,r,b,t = False,False,False,False
+            gapx,gapy = 0,0
                 # 마리오 기준충돌위치
-                if mx > bx : #왼쪽충돌 +
-                    gapx = bright - mleft
-                    l = True
-                elif mx < bx: #오른쪽충돌 -
-                    gapx = mright - bleft
-                    r = True
-                if my > by : #아래 충돌 +
-                    gapy = btop - mbottom
-                    b = True
-                elif my < by: #위 충돌 -
-                    gapy = mtop - bbottom
-                    t = True
+            if mx > bx : #왼쪽충돌 +
+                gapx = bright - mleft
+                l = True
+            elif mx < bx: #오른쪽충돌 -
+                gapx = mright - bleft
+                r = True
+            if my > by : #아래 충돌 +
+                gapy = btop - mbottom
+                b = True
+            elif my < by: #위 충돌 -
+                gapy = mtop - bbottom
+                t = True
 
-                if gapx > gapy:
+            if gapx > gapy:
+                if not block.get_type() == '0':  # 하늘이 아닌 모든 블록
                     if b == True:
-                        #print('b')
-                        mario.set_addpos(0,gapy + 1)
+                        mario.set_addpos(0,gapy + 0.1)
                         mario.dropSpeed = 0
                         mario.jump = True
                         mario.set_state(True,False,False)
                     if t == True:
-                        #print('t')
+                        mario.dropSpeed = 0
+                        mario.jump = False
                         mario.set_addpos(0, -gapy)
-                else:
+            else:
+                if not block.get_type() == '0':
                     if l == True:
                         #print('l')
                         mario.set_addpos(gapx + 1,0)

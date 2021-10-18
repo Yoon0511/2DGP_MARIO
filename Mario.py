@@ -11,7 +11,7 @@ class Mario :
         self.x,self.y = 100,125
         self.state = {'IDLE':True,'WALK':False,'JUMP':False}
         self.presskey = {'LEFT':False,'RIGHT':False}
-        self.speed = 3
+        self.speed = 100
         self.frame = 0
         #self.img = load_image('mario.png')
         self.img = load_image('m1.png')
@@ -21,7 +21,7 @@ class Mario :
         self.dropSpeed = 0
         self.dir = 0
         self.weith,self.height = 50,50
-        self.jump_power,self.gravity = 16,0.5
+        self.jump_power,self.gravity = 15,0.5
 
     def get_pos(self):
         return self.x,self.y
@@ -103,10 +103,10 @@ class Mario :
                 self.walk_frame = int(self.total_frames) % 4
 
         if self.presskey['RIGHT']:
-            self.x += self.speed
+            self.x += self.speed * frame_time
             self.state['WALK'] = True
         elif self.presskey['LEFT']:
-            self.x -= self.speed
+            self.x -= self.speed * frame_time
             self.state['WALK'] = True
         else:
             if not self.state['JUMP']:
@@ -117,10 +117,11 @@ class Mario :
 
         #중력
         if self.dropSpeed < 0:
-            if (self.y + self.dropSpeed) < 125:
-                self.y = 125
-                self.dropSpeed = 0
-                self.jump = True
-                self.set_state(True,False,False)
+            pass
+            # if (self.y + self.dropSpeed) < 125:
+            #     self.y = 125
+            #     self.dropSpeed = 0
+            #     self.jump = True
+            #     self.set_state(True,False,False)
 
         self.y += self.dropSpeed
