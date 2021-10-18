@@ -43,10 +43,10 @@ def collision():
             elif mx < bx: #오른쪽충돌 -
                 gapx = mright - bleft
                 r = True
-            if my > by : #아래 충돌 +
+            if my >= by : #아래 충돌 +
                 gapy = btop - mbottom
                 b = True
-            elif my < by: #위 충돌 -
+            elif my <= by: #위 충돌 -
                 gapy = mtop - bbottom
                 t = True
 
@@ -69,14 +69,11 @@ def collision():
                         if b == True:
                             mario.jump = False
             else:
-                if not block.get_type() == '0':
+                if not block.get_type() == '0' and not block.get_type() == '1':
                     if l == True:
-                        print('l')
-                        mario.set_addpos(gapx + 1,0)
+                        mario.set_addpos(gapx,0)
                     if r == True:
-                        print('r')
                         mario.set_addpos(-gapx, 0)
-
 
 open_canvas(GAME_WIDTH,GAME_HEIGHT)
 mario = Mario()
