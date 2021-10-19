@@ -50,7 +50,6 @@ def collision():
                 gapy = mtop - bbottom
                 t = True
 
-
             if gapx > gapy:
                 if not block.get_type() == '0':  # 하늘이 아닌 모든 블록
                     isskyblock = False

@@ -20,7 +20,10 @@ class block:
 
     def set_pos(self,x,y,type):
         self.x,self.y = x,y
-        self.type = type
+        if type == 'G' or type == 'T':
+            self.type = '0'
+        else:
+            self.type = type
 
     def get_pos(self):
         return self.x,self.y
@@ -60,5 +63,3 @@ class block:
             self.bF.draw(self.x, self.y, 50, 50)
         elif self.type == 'bitem':
             self.bitem.draw(self.x, self.y, 50, 50)
-        elif self.type == 'G':
-            self.Gumba.draw(self.x, self.y, 50, 50)

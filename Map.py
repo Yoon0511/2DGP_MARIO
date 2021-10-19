@@ -1,11 +1,13 @@
 from block import *
-
+from ENEMY import *
 #1280 800
 
 class MAP:
     def __init__(self):
         self.path = 'stage1.txt'
         self.blocks = []
+        self.enemys = []
+
 
     def draw(self):
         for block in self.blocks:
