@@ -25,7 +25,7 @@ def map_offset():
         mario.set_addpos(-gap,0)
     for block in map.blocks:
         block.offet_pos(-gap,0)
-
+    #마리오가 앞으로 가는것이 아닌 배경이 앞으로 와서 마리오가 앞으로 가는것처럼 보임
 def collision():
     for block in map.blocks:
         mario.Collision_block(block)

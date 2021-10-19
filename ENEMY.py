@@ -6,7 +6,7 @@ class Enemy:
         self.type = 'G'
         self.Gumbaimg = load_image('Gumba.png')
         self.Turtleimg = load_image('turtle.png')
-        self.dir = 0
+        self.dir = 3
         self.movespeed = 200
         self.weith,self.height = 50,50
         self.drop = False
