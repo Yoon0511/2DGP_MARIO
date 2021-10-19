@@ -131,3 +131,52 @@ class Mario :
             #     self.set_state(True,False,False)
 
         self.y += self.dropSpeed * frame_time
+
+    def Collision_block(self,block):
+        mleft, mtop, mright, mbottom = self.get_bb()
+        isskyblock = True
+        bleft, btop, bright, bbottom = block.get_bb()
+        if mleft <= bright and mtop >= bbottom and mright >= bleft and mbottom <= btop:
+            mx, my = self.get_pos()
+            bx, by = block.get_pos()
+            l, r, b, t = False, False, False, False
+
+            gapx, gapy = 0, 0
+            # 마리오 기준충돌위치
+            if mx >= bx:  # 왼쪽충돌 +
+                gapx = bright - mleft
+                l = True
+            elif mx <= bx:  # 오른쪽충돌 -
+                gapx = mright - bleft
+                r = True
+            if my >= by:  # 아래 충돌 +
+                gapy = btop - mbottom
+                b = True
+            elif my <= by:  # 위 충돌 -
+                gapy = mtop - bbottom
+                t = True
+
+            if gapx > gapy:
+                if not block.get_type() == '0':  # 하늘이 아닌 모든 블록
+                    isskyblock = False
+                    if b == True:
+                        # mario.set_addpos(0,gapy + 0.01)
+                        if self.jump == False:
+                            self.set_addpos(0, gapy)
+                            self.dropSpeed = 0
+                            self.jump = True
+                            self.set_state(True, False, False)
+                    if t == True:
+                        self.dropSpeed = 0
+                        self.jump = False
+                        self.set_addpos(0, -gapy)
+                if block.get_type() == '0' and isskyblock == True:  # 하늘블록처리 마리오 발밑이 하늘블록일때
+                    if not self.get_check_state('JUMP'):
+                        if b == True:
+                            self.jump = False
+            else:
+                if not block.get_type() == '0' and not block.get_type() == '1':
+                    if l == True:
+                        self.set_addpos(gapx + 0.01, 0)
+                    if r == True:
+                        self.set_addpos(-gapx - 0.01, 0)
