@@ -27,8 +27,13 @@ class MAP:
             bl = block()
             if a == '6' or a == '7':
                 bl.set_pos(x - 25, y - 50, 'bitem')
-            else:
-                bl.set_pos(x - 25, y - 50,a)
+            elif a == 'G' or a == 'T':
+                bl.set_pos(x - 25, y - 50,'0')  # 굼바나 거북이인 곳을 하늘블록으로 채움
+                enemy = Enemy()                 #하늘블록으로 채운곳에 enemy생성
+                enemy.set_pos(x - 25,y - 50, a)
+                self.enemys.append(enemy)
+            else:                               # not 아이템박스 not enmey
+                bl.set_pos(x - 25, y - 50, a)
             self.blocks.append(bl)
             x += 50
 
