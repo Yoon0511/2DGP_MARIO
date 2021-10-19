@@ -21,7 +21,7 @@ class Mario :
         self.dropSpeed = 0
         self.dir = 0
         self.weith,self.height = 50,50
-        self.jump_power,self.gravity = 15,0.5
+        self.jump_power,self.gravity = 650,-8.8
 
     def get_pos(self):
         return self.x,self.y
@@ -119,7 +119,7 @@ class Mario :
                 self.set_state(True,False,False)
         #점프
         if self.jump == False:
-            self.dropSpeed -= self.gravity
+            self.dropSpeed += self.gravity
 
         #중력
         if self.dropSpeed < 0:
@@ -130,4 +130,4 @@ class Mario :
             #     self.jump = True
             #     self.set_state(True,False,False)
 
-        self.y += self.dropSpeed
+        self.y += self.dropSpeed * frame_time

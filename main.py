@@ -95,6 +95,6 @@ while GM.running:
     mario.draw()
 
     update_canvas()
-    delay(0.01)
+    #delay(0.01)
 
 close_canvas()
