@@ -13,6 +13,8 @@ class MAP:
         for block in self.blocks:
             block.draw()
 
+    def get_enemeys(self):
+        return self.enemys
 
     def setup(self):
         x,y = 0,775

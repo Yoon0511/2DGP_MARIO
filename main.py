@@ -3,6 +3,7 @@ import time
 from Mario import *
 import GM
 from Map import *
+from ENEMY import *
 
 GAME_WIDTH,GAME_HEIGHT = 1280,800
 
@@ -29,23 +30,31 @@ def collision():
     for block in map.blocks:
         mario.Collision_block(block)
 
+
 open_canvas(GAME_WIDTH,GAME_HEIGHT)
 mario = Mario()
 current_time = time.time()
 map = MAP()
 map.setup()
+ene = map.get_enemeys()
 
 while GM.running:
     frame_time = time.time() - current_time
     current_time += frame_time
     #handle_events()
-    clear_canvas()
+
+    for ENEMY in ene:
+        ENEMY.update(frame_time)
     mario.update(frame_time)
     map_offset()
+
+    clear_canvas()
 
     collision()
     map.draw()
     mario.draw()
+    for ENEMY in ene:
+        ENEMY.draw()
 
     update_canvas()
     #delay(0.01)
