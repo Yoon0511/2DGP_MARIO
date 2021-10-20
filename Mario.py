@@ -21,7 +21,9 @@ class Mario :
         self.dropSpeed = 0
         self.dir = 0
         self.weith,self.height = 50,50
-        self.jump_power,self.gravity = 500,-8.8
+        self.jump_power,self.gravity = 800,-8.8
+        self.accel = 0
+        self.jump_time = 1.5
 
     def get_pos(self):
         return self.x,self.y
@@ -119,7 +121,11 @@ class Mario :
                 self.set_state(True,False,False)
         #점프
         if self.jump == False:
-            self.dropSpeed += self.gravity
+            #hegiht = (self.jump_time * self.jump_time * (self.gravity) / 2) + (self.jump_time * 10)
+            #self.set_addpos(0,hegiht)
+            #self.jump_time += frame_time
+            #print(self.jump_time)
+            self.dropSpeed += self.gravity #* frame_time
 
         #중력
         if self.dropSpeed < 0:
@@ -130,6 +136,7 @@ class Mario :
             #     self.jump = True
             #     self.set_state(True,False,False)
 
+        #print(self.dropSpeed)
         self.y += self.dropSpeed * frame_time
 
     def Collision_block(self,block):
@@ -163,10 +170,12 @@ class Mario :
                         # mario.set_addpos(0,gapy + 0.01)
                         if self.jump == False:
                             self.set_addpos(0, gapy)
-                            self.dropSpeed = 0
                             self.jump = True
+                            self.dropSpeed = 0
+                            #self.jump_time = 1.5
                             self.set_state(True, False, False)
                     if t == True:
+                        #self.jump_time += 2.5 - self.jump_time
                         self.dropSpeed = 0
                         self.jump = False
                         self.set_addpos(0, -gapy)
