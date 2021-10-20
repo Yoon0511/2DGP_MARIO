@@ -5,6 +5,7 @@ import GM
 from Map import *
 from ENEMY import *
 
+# 인게임 파일 추후 프레임워크 수정예정
 GAME_WIDTH,GAME_HEIGHT = 1280,800
 
 def handle_events():

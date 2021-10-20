@@ -1,7 +1,7 @@
 from block import *
 from ENEMY import *
 #1280 800
-
+# 맵 (블록,몬스터) 정보 파일
 class MAP:
     def __init__(self):
         self.path = 'stage1.txt'

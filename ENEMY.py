@@ -1,5 +1,5 @@
 from pico2d import *
-
+#굼바, 거북이 클래스
 class Enemy:
     def __init__(self):
         self.x,self.y = 0,0

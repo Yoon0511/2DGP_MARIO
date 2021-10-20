@@ -1,6 +1,6 @@
 from pico2d import *
 import GM
-
+# 마리오 클래스 점프관련 수정필요
 class Mario :
     TIME_PER_ACTION = 0.1
     ACTION_PER_TIME = 0.3 / TIME_PER_ACTION
