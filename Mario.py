@@ -11,7 +11,7 @@ class Mario :
         self.x,self.y = 100,125
         self.state = {'IDLE':True,'WALK':False,'JUMP':False}
         self.presskey = {'LEFT':False,'RIGHT':False}
-        self.speed = 200
+        self.speed = 250
         self.frame = 0
         #self.img = load_image('mario.png')
         self.img = load_image('m1.png')
