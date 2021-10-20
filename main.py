@@ -25,36 +25,55 @@ def map_offset():
         mario.set_addpos(-gap,0)
     for block in map.blocks:
         block.offet_pos(-gap,0)
+    for ENEMY in map.enemys:
+        ENEMY.set_addpos(-gap,0)
     #마리오가 앞으로 가는것이 아닌 배경이 앞으로 와서 마리오가 앞으로 가는것처럼 보임
 def collision():
     for block in map.blocks:
-        mario.Collision_block(block)
+        x, y = block.get_pos()
+        if x >= -50 and x <= GAME_WIDTH+50 and y >= 0 and y <= GAME_HEIGHT:
+            mario.Collision_block(block)
 
 
 open_canvas(GAME_WIDTH,GAME_HEIGHT)
 mario = Mario()
-current_time = time.time()
+Looding = False
+Loodingimg = load_image('Looding.png')
+Loodingimg.draw(GAME_WIDTH//2,GAME_HEIGHT//2)
+update_canvas()
 map = MAP()
 map.setup()
 ene = map.get_enemeys()
+Looding = True
+del(Loodingimg)
 
-while GM.running:
+current_time = time.time()
+
+while GM.running and Looding:
     frame_time = time.time() - current_time
     current_time += frame_time
     #handle_events()
 
     for ENEMY in ene:
-        ENEMY.update(frame_time)
+        x,y = ENEMY.get_pos()
+        if x >= -50 and x <= GAME_WIDTH+25 and y >= 0 and y <= GAME_HEIGHT:
+            ENEMY.update(frame_time)
     mario.update(frame_time)
     map_offset()
 
     clear_canvas()
 
     collision()
-    map.draw()
+    #map.draw()
+    for block in map.blocks:
+        x,y = block.get_pos()
+        if x >= -50 and x <= GAME_WIDTH+50 and y >= 0 and y <= GAME_HEIGHT:
+            block.draw()
     mario.draw()
     for ENEMY in ene:
-        ENEMY.draw()
+        x, y = ENEMY.get_pos()
+        if x >= -50 and x <= GAME_WIDTH+50 and y >= 0 and y <= GAME_HEIGHT:
+            ENEMY.draw()
 
     update_canvas()
     #delay(0.01)
