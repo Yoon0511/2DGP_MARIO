@@ -6,8 +6,8 @@ class Enemy:
         self.type = 'G'
         self.Gumbaimg = load_image('Gumba.png')
         self.Turtleimg = load_image('turtle.png')
-        self.dir = 3
-        self.movespeed = 200
+        self.dir = 0
+        self.movespeed = 100
         self.weith,self.height = 50,50
         self.drop = False
         self.dropSpeed = 0
@@ -37,7 +37,6 @@ class Enemy:
         self.dir = dir
 
     def update(self,frame_time):
-        print(frame_time)
         if self.dir == 0:  # 왼쪽
             self.x -= self.movespeed * frame_time
         elif self.dir == 1:  # 오른쪽
