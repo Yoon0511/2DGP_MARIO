@@ -21,7 +21,7 @@ class Mario :
         self.dropSpeed = 0
         self.dir = 0
         self.weith,self.height = 50,50
-        self.jump_power,self.gravity = 450,-8.8
+        self.jump_power,self.gravity = 500,-8.8
 
     def get_pos(self):
         return self.x,self.y
