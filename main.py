@@ -29,12 +29,20 @@ def map_offset():
     for ENEMY in map.enemys:
         ENEMY.set_addpos(-gap,0)
     #마리오가 앞으로 가는것이 아닌 배경이 앞으로 와서 마리오가 앞으로 가는것처럼 보임
+
 def collision():
     for block in map.blocks:
-        x, y = block.get_pos()
-        if x >= -50 and x <= GAME_WIDTH+50 and y >= 0 and y <= GAME_HEIGHT:
-            mario.Collision_block(block)
+        for ENEMY in map.enemys:
+            bx, by = block.get_pos()
+            ex, ey = ENEMY.get_pos()
+            if bx >= -50 and bx <= GAME_WIDTH+50 and by >= 0 and by <= GAME_HEIGHT:
+                mario.Collision_block(block)
+                ENEMY.Collsion_block(block)
 
+
+def draw_skyblock():
+    for block in map.skyblocks:
+        block.draw()
 
 open_canvas(GAME_WIDTH,GAME_HEIGHT)
 mario = Mario()
@@ -70,6 +78,8 @@ while GM.running and Looding:
         x,y = block.get_pos()
         if x >= -50 and x <= GAME_WIDTH+50 and y >= 0 and y <= GAME_HEIGHT:
             block.draw()
+    #
+    draw_skyblock()
     mario.draw()
     for ENEMY in ene:
         x, y = ENEMY.get_pos()

@@ -21,7 +21,7 @@ class Mario :
         self.dropSpeed = 0
         self.dir = 0
         self.weith,self.height = 50,50
-        self.jump_power,self.gravity = 800,-8.8
+        self.jump_power,self.gravity = 400,-8.8
         self.accel = 5
         self.jump_time = 1.5
 

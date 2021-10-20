@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 #굼바, 거북이 클래스
 class Enemy:
     def __init__(self):
@@ -6,7 +7,7 @@ class Enemy:
         self.type = 'G'
         self.Gumbaimg = load_image('Gumba.png')
         self.Turtleimg = load_image('turtle.png')
-        self.dir = 0
+        self.dir = random.randint(0,1)
         self.movespeed = 100
         self.weith,self.height = 50,50
         self.drop = False
@@ -66,7 +67,7 @@ class Enemy:
             l, r, b, t = False, False, False, False
 
             gapx, gapy = 0, 0
-            # 마리오 기준충돌위치
+            # enemy 기준충돌위치
             if mx >= bx:  # 왼쪽충돌 +
                 gapx = bright - eleft
                 l = True

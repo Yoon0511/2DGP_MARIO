@@ -7,11 +7,13 @@ class MAP:
         self.path = 'stage1.txt'
         self.blocks = []
         self.enemys = []
-
+        self.skyblocks = []
 
     def draw(self):
         for block in self.blocks:
             block.draw()
+        for skyblock in self.skyblocks:
+            skyblock.draw()
 
     def get_enemeys(self):
         return self.enemys
@@ -27,7 +29,7 @@ class MAP:
                 continue
 
             bl = block()
-            if a == '6' or a == '7':
+            if a == '6' or a == '7' or a == '8' or a == '4' or a == '5':
                 bl.set_pos(x - 25, y - 50, 'bitem')
             elif a == 'G' or a == 'T':
                 bl.set_pos(x - 25, y - 50,'0')  # 굼바나 거북이인 곳을 하늘블록으로 채움
@@ -40,6 +42,10 @@ class MAP:
             x += 50
 
         mapdata.close()
+        for i in range(25,1280,50):
+            skyblock = block()
+            skyblock.set_pos(i,775,'0')
+            self.skyblocks.append(skyblock)
 
 def main():
     r = True
