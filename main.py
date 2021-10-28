@@ -24,20 +24,20 @@ def map_offset():
     if mx >= offsetx:
         gap = mx - offsetx
         mario.set_addpos(-gap,0)
-    for block in map.blocks:
-        block.offet_pos(-gap,0)
+    for _block in map.blocks:
+        _block.offet_pos(-gap,0)
     for ENEMY in map.enemys:
         ENEMY.set_addpos(-gap,0)
     #마리오가 앞으로 가는것이 아닌 배경이 앞으로 와서 마리오가 앞으로 가는것처럼 보임
 
 def collision():
-    for block in map.blocks:
+    for _block in map.blocks:
         for ENEMY in map.enemys:
-            bx, by = block.get_pos()
+            bx, by = _block.get_pos()
             ex, ey = ENEMY.get_pos()
             if bx >= -50 and bx <= GAME_WIDTH+50 and by >= 0 and by <= GAME_HEIGHT:
-                mario.Collision_block(block)
-                ENEMY.Collsion_block(block)
+                mario.Collision_block(_block)
+                ENEMY.Collsion_block(_block)
 
 
 def draw_skyblock():

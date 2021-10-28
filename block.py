@@ -1,20 +1,24 @@
 from pico2d import *
 
 class block:
+    image = False
+    b0,b1,b2,b3,b6,bA,bB,bC,bD,bE,bF,bitem = None,None,None,None,None,None,None,None,None,None,None,None
     def __init__(self):
-        self.b0 = load_image('b0.png')
-        self.b1 = load_image('b1.png')
-        self.b2 = load_image('b2.png')
-        self.b3 = load_image('b3.png')
-        self.b6 = load_image('b6.png')
-        self.bA = load_image('bA.png')
-        self.bB = load_image('bB.png')
-        self.bC = load_image('bC.png')
-        self.bD = load_image('bD.png')
-        self.bE = load_image('bE.png')
-        self.bF = load_image('bF.png')
-        self.bitem = load_image('bitem.png')
-        self.Gumba = load_image('Gumba.png')
+        #self.Gumba = load_image('Gumba.png')
+        if block.image == False:
+            block.b0 = load_image('b0.png')
+            block.b1 = load_image('b1.png')
+            block.b2 = load_image('b2.png')
+            block.b3 = load_image('b3.png')
+            block.b6 = load_image('b6.png')
+            block.bA = load_image('bA.png')
+            block.bB = load_image('bB.png')
+            block.bC = load_image('bC.png')
+            block.bD = load_image('bD.png')
+            block.bE = load_image('bE.png')
+            block.bF = load_image('bF.png')
+            block.bitem = load_image('bitem.png')
+            block.image = True
         self.x,self.y = 0,0
         self.type = '1'
 
@@ -40,26 +44,26 @@ class block:
 
     def draw(self):
         if self.type == '0':
-            self.b0.draw(self.x,self.y,50,50)
+            block.b0.draw(self.x,self.y,50,50)
         elif self.type == '1':
-            self.b1.draw(self.x,self.y,50,50)
+            block.b1.draw(self.x,self.y,50,50)
         elif self.type == '2':
-            self.b2.draw(self.x, self.y, 50, 50)
+            block.b2.draw(self.x, self.y, 50, 50)
         elif self.type == '3':
-            self.b3.draw(self.x, self.y, 50, 50)
+            block.b3.draw(self.x, self.y, 50, 50)
         elif self.type == '6':
-            self.b6.draw(self.x, self.y, 50, 50)
+            block.b6.draw(self.x, self.y, 50, 50)
         elif self.type == 'A':
-            self.bA.draw(self.x, self.y, 50, 50)
+            block.bA.draw(self.x, self.y, 50, 50)
         elif self.type == 'B':
-            self.bB.draw(self.x, self.y, 50, 50)
+            block.bB.draw(self.x, self.y, 50, 50)
         elif self.type == 'C':
-            self.bC.draw(self.x, self.y, 50, 50)
+            block.bC.draw(self.x, self.y, 50, 50)
         elif self.type == 'D':
-            self.bD.draw(self.x, self.y, 50, 50)
+            block.bD.draw(self.x, self.y, 50, 50)
         elif self.type == 'E':
-            self.bE.draw(self.x, self.y, 50, 50)
+            block.bE.draw(self.x, self.y, 50, 50)
         elif self.type == 'F':
-            self.bF.draw(self.x, self.y, 50, 50)
+            block.bF.draw(self.x, self.y, 50, 50)
         elif self.type == 'bitem':
-            self.bitem.draw(self.x, self.y, 50, 50)
+            block.bitem.draw(self.x, self.y, 50, 50)
