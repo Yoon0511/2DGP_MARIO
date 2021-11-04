@@ -11,7 +11,7 @@ class Mario :
         self.x,self.y = 100,125
         self.state = {'IDLE':True,'WALK':False,'JUMP':False}
         self.presskey = {'LEFT':False,'RIGHT':False}
-        self.speed = 100
+        self.speed = 250
         self.frame = 0
         #self.img = load_image('mario.png')
         self.img = load_image('m1.png')
@@ -21,7 +21,7 @@ class Mario :
         self.dropSpeed = 0
         self.dir = 0
         self.weith,self.height = 50,50
-        self.jump_power,self.gravity = 600,-8.8
+        self.jump_power,self.gravity = 1000,-8.8
         self.accel = 0
         self.jump_time = 1.5
 
@@ -128,7 +128,8 @@ class Mario :
             #print(self.jump_time)
             self.dropSpeed += self.accel + self.gravity #* frame_time
             self.accel += self.gravity
-
+            if self.accel <= -150:
+                self.accel = -150
         #중력
         if self.dropSpeed < 0:
             pass
