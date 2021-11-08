@@ -42,6 +42,9 @@ class block:
     def get_type(self):
         return self.type
 
+    def update(self):
+        pass
+
     def draw(self):
         if self.type == '0':
             block.b0.draw(self.x,self.y,50,50)

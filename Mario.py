@@ -1,7 +1,8 @@
 from pico2d import *
 import GM
+import game_framework
 # 마리오 클래스 점프관련 수정필요
-class Mario :
+class mario :
     TIME_PER_ACTION = 0.1
     ACTION_PER_TIME = 0.3 / TIME_PER_ACTION
     FRAMES_PER_ACTION = 4
@@ -95,27 +96,25 @@ class Mario :
         self.state['WALK'] = walk
         self.state['JUMP'] = jump
 
-    def draw(self):
-        if self.state['JUMP']:
-            self.draw_jump()
-        elif self.state['WALK']:
-            self.draw_walk()
-        elif self.state['IDLE']:
-            self.draw_idle()
+    def enter(self):
+        pass
 
-    def update(self,frame_time):
-        self.total_frames += Mario.FRAMES_PER_ACTION * Mario.ACTION_PER_TIME * frame_time
-        self.handle_events()
+    def exit(self):
+        pass
+
+    def update(self):
+        self.total_frames += mario.FRAMES_PER_ACTION * mario.ACTION_PER_TIME * game_framework.frame_time
+        #self.handle_events()
 
         for key,value in self.state.items():
             if key == 'WALK' and value == True:
                 self.walk_frame = int(self.total_frames) % 4
 
         if self.presskey['RIGHT']:
-            self.x += self.speed * frame_time
+            self.x += self.speed * game_framework.frame_time
             self.state['WALK'] = True
         elif self.presskey['LEFT']:
-            self.x -= self.speed * frame_time
+            self.x -= self.speed * game_framework.frame_time
             self.state['WALK'] = True
         else:
             if not self.state['JUMP']:
@@ -126,8 +125,8 @@ class Mario :
             #self.set_addpos(0,hegiht)
             #self.jump_time += frame_time
             #print(self.jump_time)
-            self.dropSpeed += self.accel + self.gravity #* frame_time
-            self.accel += self.gravity
+            self.dropSpeed += self.accel + self.gravity
+            self.accel += self.gravity * game_framework.frame_time
             if self.accel <= -150:
                 self.accel = -150
         #중력
@@ -140,13 +139,24 @@ class Mario :
             #     self.set_state(True,False,False)
 
         #print(self.dropSpeed)
-        self.y += self.dropSpeed * frame_time
+        self.y += self.dropSpeed * game_framework.frame_time
+
+    def draw(self):
+        print(123)
+
+    def draw(self):
+        if self.state['JUMP']:
+            self.draw_jump()
+        elif self.state['WALK']:
+            self.draw_walk()
+        elif self.state['IDLE']:
+            self.draw_idle()
 
     def Collision_block(self,block):
         mleft, mtop, mright, mbottom = self.get_bb()
         isskyblock = True
         bleft, btop, bright, bbottom = block.get_bb()
-        if mleft <= bright and mtop >= bbottom and mright >= bleft and mbottom <= btop:
+        if mleft <= bright and mtop >= bbottom and mright > bleft and mbottom < btop:
             mx, my = self.get_pos()
             bx, by = block.get_pos()
             l, r, b, t = False, False, False, False

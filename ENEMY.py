@@ -1,5 +1,7 @@
 from pico2d import *
 import random
+import game_framework
+
 #굼바, 거북이 클래스
 class Enemy:
     def __init__(self):
@@ -37,16 +39,16 @@ class Enemy:
     def chage_dir(self,dir):
         self.dir = dir
 
-    def update(self,frame_time):
+    def update(self):
         if self.dir == 0:  # 왼쪽
-            self.x -= self.movespeed * frame_time
+            self.x -= self.movespeed * game_framework.frame_time
         elif self.dir == 1:  # 오른쪽
-            self.x += self.movespeed * frame_time
+            self.x += self.movespeed * game_framework.frame_time
 
         if self.drop == True:
             self.dropSpeed += self.gravity
 
-        self.y += self.dropSpeed * frame_time
+        self.y += self.dropSpeed * game_framework.frame_time
 
     def draw(self):
         if self.type == 'G':
