@@ -31,10 +31,14 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
+        my_mario.handle_events(events)
 
 def update():
     for game_object in GM.all_objects():
         game_object.update()
+
+    for block in map:
+        my_mario.Collision_block(block)
 
 def draw():
     clear_canvas()

@@ -63,8 +63,8 @@ class mario :
     def now_state(self):
         return self.state
 
-    def handle_events(self):
-        events = get_events()
+    def handle_events(self,get_events):
+        events = get_events
         for event in events:
             if event.type == SDL_QUIT:
                GM.running = False
@@ -119,6 +119,7 @@ class mario :
         else:
             if not self.state['JUMP']:
                 self.set_state(True,False,False)
+
         #점프
         if self.jump == False:
             #hegiht = (self.jump_time * self.jump_time * (self.gravity) / 2) + (self.jump_time * 10)
@@ -142,15 +143,14 @@ class mario :
         self.y += self.dropSpeed * game_framework.frame_time
 
     def draw(self):
-        print(123)
-
-    def draw(self):
         if self.state['JUMP']:
             self.draw_jump()
         elif self.state['WALK']:
             self.draw_walk()
         elif self.state['IDLE']:
             self.draw_idle()
+
+        draw_rectangle(*self.get_bb())
 
     def Collision_block(self,block):
         mleft, mtop, mright, mbottom = self.get_bb()
@@ -182,7 +182,7 @@ class mario :
                     if b == True:
                         # mario.set_addpos(0,gapy + 0.01)
                         if self.jump == False:
-                            self.set_addpos(0, gapy)
+                            self.set_addpos(0, gapy - 0.01)
                             self.jump = True
                             self.accel = 0
                             self.dropSpeed = 0
@@ -192,7 +192,7 @@ class mario :
                         #self.jump_time += 2.5 - self.jump_time
                         self.dropSpeed = 0
                         self.jump = False
-                        self.set_addpos(0, -gapy)
+                        self.set_addpos(0, -gapy - 0.01)
                 if block.get_type() == '0' and isskyblock == True:  # 하늘블록처리 마리오 발밑이 하늘블록일때
                     if not self.get_check_state('JUMP'):
                         if b == True:

@@ -70,3 +70,5 @@ class block:
             block.bF.draw(self.x, self.y, 50, 50)
         elif self.type == 'bitem':
             block.bitem.draw(self.x, self.y, 50, 50)
+
+        draw_rectangle(*self.get_bb())
