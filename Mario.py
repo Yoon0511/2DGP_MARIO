@@ -22,15 +22,20 @@ class mario :
         self.dropSpeed = 0
         self.dir = 0
         self.weith,self.height = 50,50
-        self.jump_power,self.gravity = 1000,-8.8
+        self.jump_power,self.gravity = 500,-12.8
         self.accel = 0
         self.jump_time = 1.5
+        self.prev_collision = False
+        self.now_collision = False
 
     def get_pos(self):
         return self.x,self.y
 
     def get_bb(self):
         return self.x - 25,self.y + 25,self.x + 25,self.y - 25
+
+    def get_foot_bb(self):
+        return self.x - 25,self.y-24,self.x+25,self.y-25
 
     def set_addpos(self,x,y):
         self.x += x
@@ -59,9 +64,6 @@ class mario :
             self.img.clip_draw(50, 0, 50, 50, self.x, self.y)
         if self.dir == 1:
             self.img.clip_draw(50, 50, 50, 50, self.x, self.y)
-
-    def now_state(self):
-        return self.state
 
     def handle_events(self,get_events):
         events = get_events
@@ -122,24 +124,21 @@ class mario :
 
         #점프
         if self.jump == False:
+            pass
             #hegiht = (self.jump_time * self.jump_time * (self.gravity) / 2) + (self.jump_time * 10)
             #self.set_addpos(0,hegiht)
             #self.jump_time += frame_time
             #print(self.jump_time)
-            self.dropSpeed += self.accel + self.gravity
+            self.dropSpeed += self.accel
             self.accel += self.gravity * game_framework.frame_time
-            if self.accel <= -150:
-                self.accel = -150
+            if self.accel <= -300:
+                self.accel = -300
         #중력
-        if self.dropSpeed < 0:
-            pass
-            # if (self.y + self.dropSpeed) < 125:
-            #     self.y = 125
-            #     self.dropSpeed = 0
-            #     self.jump = True
-            #     self.set_state(True,False,False)
+        # self.dropSpeed += self.accel
+        # self.accel += self.gravity * game_framework.frame_time
+        # if self.accel <= -150:
+        #     self.accel = -150
 
-        #print(self.dropSpeed)
         self.y += self.dropSpeed * game_framework.frame_time
 
     def draw(self):
@@ -151,55 +150,65 @@ class mario :
             self.draw_idle()
 
         draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_foot_bb())
 
     def Collision_block(self,block):
         mleft, mtop, mright, mbottom = self.get_bb()
-        isskyblock = True
         bleft, btop, bright, bbottom = block.get_bb()
-        if mleft <= bright and mtop >= bbottom and mright > bleft and mbottom < btop:
-            mx, my = self.get_pos()
-            bx, by = block.get_pos()
-            l, r, b, t = False, False, False, False
 
-            gapx, gapy = 0, 0
-            # 마리오 기준충돌위치
-            if mx > bx:  # 왼쪽충돌 +
-                gapx = bright - mleft
-                l = True
-            elif mx < bx:  # 오른쪽충돌 -
-                gapx = mright - bleft
-                r = True
-            if my >= by:  # 아래 충돌 +
-                gapy = btop - mbottom
-                b = True
-            elif my <= by:  # 위 충돌 -
-                gapy = mtop - bbottom
-                t = True
+        if mleft > bright: return False
+        if mright < bleft: return False
+        if mtop < bbottom: return False
+        if mbottom > btop: return False
 
-            if gapx > gapy:
-                if not block.get_type() == '0':  # 하늘이 아닌 모든 블록
-                    isskyblock = False
-                    if b == True:
-                        # mario.set_addpos(0,gapy + 0.01)
-                        if self.jump == False:
-                            self.set_addpos(0, gapy - 0.01)
-                            self.jump = True
-                            self.accel = 0
-                            self.dropSpeed = 0
-                            #self.jump_time = 1.5
-                            self.set_state(True, False, False)
-                    if t == True:
-                        #self.jump_time += 2.5 - self.jump_time
-                        self.dropSpeed = 0
-                        self.jump = False
-                        self.set_addpos(0, -gapy - 0.01)
-                if block.get_type() == '0' and isskyblock == True:  # 하늘블록처리 마리오 발밑이 하늘블록일때
-                    if not self.get_check_state('JUMP'):
-                        if b == True:
-                            self.jump = False
-            else:
-                if not block.get_type() == '0' and not block.get_type() == '1':
-                    if l == True:
-                        self.set_addpos(gapx + 0.01, 0)
-                    if r == True:
-                        self.set_addpos(-gapx - 0.01, 0)
+        #if mleft <= bright and mtop >= bbottom and mright > bleft and mbottom < btop:
+        mx, my = self.get_pos()
+        bx, by = block.get_pos()
+        l, r, b, t = False, False, False, False
+
+        gapx, gapy = 0, 0
+        # 마리오 기준충돌위치
+        if mx > bx:  # 왼쪽충돌 +
+            gapx = bright - mleft
+            l = True
+        elif mx < bx:  # 오른쪽충돌 -
+            gapx = mright - bleft
+            r = True
+        if my >= by:  # 아래 충돌 +
+            gapy = btop - mbottom
+            b = True
+        elif my <= by:  # 위 충돌 -
+            gapy = mtop - bbottom
+            t = True
+
+        if gapx > gapy:
+            if b == True:
+                # mario.set_addpos(0,gapy + 0.01)
+                if self.jump == False:
+                    self.set_addpos(0, gapy - 0.1)
+                    self.jump = True
+                    self.accel = 0
+                    self.dropSpeed = 0
+                    #self.jump_time = 1.5
+                    if self.state['IDLE'] == False:
+                        self.set_state(True, False, False)
+                    print('collision b')
+            if t == True:
+                #self.jump_time += 2.5 - self.jump_time
+                self.dropSpeed = 0
+                self.jump = False
+                self.set_addpos(0, -gapy - 0.01)
+                print('collision t')
+        else:
+            if not block.get_type() == '1':
+                if l == True:
+                    self.set_addpos(gapx + 0.01, 0)
+                if r == True:
+                    self.set_addpos(-gapx - 0.01, 0)
+        return True
+
+    def down_mario(self):
+        if self.state['JUMP']: return
+
+        self.accel = -30
+        self.jump = False
