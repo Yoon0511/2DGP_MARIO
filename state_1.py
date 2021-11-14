@@ -36,9 +36,10 @@ def enter():
     global bg
     bg = Background()
     GM.add_object(bg,0)
-    # global enemys
-    # enemys = my_map.enemys
-    # GM.add_object(enemys,1)
+
+    global enemys
+    enemys = my_map.enemys
+    GM.add_objects(enemys,1)
 
 def exit():
     GM.clear()
@@ -50,9 +51,6 @@ def handle_events():
             game_framework.quit()
         my_mario.handle_events(events)
 
-
-
-
 def update():
     for game_object in GM.all_objects():
         game_object.update()
@@ -62,11 +60,14 @@ def update():
         my_mario.Collision_block(block)
         if not (collide(my_mario,block)):
             foot_collision+=1
-
     if (foot_collision == len(map)):
         my_mario.down_mario()
 
-    print(GM.OFFSET_GAP)
+    for block in map:
+        for enemy in enemys:
+            enemy.Collsion_block(block)
+
+
 def draw():
     clear_canvas()
     for game_object in GM.all_objects():

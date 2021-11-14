@@ -1,4 +1,5 @@
 from pico2d import *
+import GM
 import state_1
 import game_framework
 
@@ -26,7 +27,7 @@ def update():
 def draw():
     global image
     clear_canvas()
-    image.draw(400,300)
+    image.draw(GM.GAME_WIDTH//2,GM.GAME_HEIGHT//2)
     update_canvas()
 
 def pause():
