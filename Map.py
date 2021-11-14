@@ -15,8 +15,9 @@ class MAP:
         return self.blocks
 
     def draw(self):
-        for block in self.blocks:
-            block.draw()
+        pass
+        # for block in self.blocks:
+        #     block.draw()
         # for skyblock in self.skyblocks:
         #     skyblock.draw()
 
@@ -38,7 +39,7 @@ class MAP:
                 if a == '6' or a == '7' or a == '8' or a == '4' or a == '5':
                     bl.set_pos(x - 25, y - 50, 'bitem')
                 elif a == 'G' or a == 'T':
-                    bl.set_pos(x - 25, y - 50,'0')  # 굼바나 거북이인 곳을 하늘블록으로 채움
+                    #bl.set_pos(x - 25, y - 50,'0')  # 굼바나 거북이인 곳을 하늘블록으로 채움
                     enemy = Enemy()                 #하늘블록으로 채운곳에 enemy생성
                     enemy.set_pos(x - 25,y - 50, a)
                     self.enemys.append(enemy)
