@@ -45,6 +45,9 @@ def handle_events():
             game_framework.quit()
         my_mario.handle_events(events)
 
+
+
+
 def update():
     for game_object in GM.all_objects():
         game_object.update()
@@ -54,10 +57,11 @@ def update():
         my_mario.Collision_block(block)
         if not (collide(my_mario,block)):
             foot_collision+=1
+
     if (foot_collision == len(map)):
         my_mario.down_mario()
 
-
+    print(GM.OFFSET_GAP)
 def draw():
     clear_canvas()
     for game_object in GM.all_objects():

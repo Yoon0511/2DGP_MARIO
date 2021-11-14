@@ -141,6 +141,14 @@ class mario :
 
         self.y += self.dropSpeed * game_framework.frame_time
 
+        offsetx = GM.GAME_WIDTH / 2
+        if self.x >= offsetx:
+            gap = self.x - offsetx
+            GM.OFFSET_GAP = gap
+            self.set_addpos(-gap, 0)
+        else:
+            GM.OFFSET_GAP = 0
+
     def draw(self):
         if self.state['JUMP']:
             self.draw_jump()
@@ -192,13 +200,11 @@ class mario :
                     #self.jump_time = 1.5
                     if self.state['IDLE'] == False:
                         self.set_state(True, False, False)
-                    print('collision b')
             if t == True:
                 #self.jump_time += 2.5 - self.jump_time
                 self.dropSpeed = 0
                 self.jump = False
                 self.set_addpos(0, -gapy - 0.01)
-                print('collision t')
         else:
             if not block.get_type() == '1':
                 if l == True:
@@ -210,5 +216,5 @@ class mario :
     def down_mario(self):
         if self.state['JUMP']: return
 
-        self.accel = -30
+        self.accel = -20
         self.jump = False

@@ -1,4 +1,5 @@
 from pico2d import *
+import GM
 
 class block:
     image = False
@@ -32,7 +33,7 @@ class block:
     def get_pos(self):
         return self.x,self.y
 
-    def offet_pos(self,x,y):
+    def add_pos(self,x,y):
         self.x += x
         self.y += y
 
@@ -43,7 +44,7 @@ class block:
         return self.type
 
     def update(self):
-        pass
+        self.add_pos(-GM.OFFSET_GAP,0)
 
     def draw(self):
         if self.type == '0':
