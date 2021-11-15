@@ -46,6 +46,9 @@ class block:
     def update(self):
         self.add_pos(-GM.OFFSET_GAP,0)
 
+        if self.x <= -100:
+            GM.remove_object(self)
+
     def draw(self):
         if self.type == '0':
             block.b0.draw(self.x,self.y,50,50)
@@ -73,3 +76,6 @@ class block:
             block.bitem.draw(self.x, self.y, 50, 50)
 
         draw_rectangle(*self.get_bb())
+
+    def collision_event(self):
+        print('block collision')

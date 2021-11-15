@@ -201,7 +201,7 @@ class mario :
                     if self.state['IDLE'] == False:
                         self.set_state(True, False, False)
             if t == True:
-                #self.jump_time += 2.5 - self.jump_time
+                block.collision_event()
                 self.dropSpeed = 0
                 self.jump = False
                 self.set_addpos(0, -gapy - 0.01)
