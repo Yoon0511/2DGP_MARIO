@@ -1,6 +1,6 @@
 from pico2d import *
 import GM
-from item import Item
+from item import Coin
 
 class block:
     image = False
@@ -80,7 +80,7 @@ class block:
 
     def collision_event(self):
         if self.get_type() == 'bitem':
-            coins = Item()
+            coins = Coin()
             coins.set_pos(self.x,self.y)
             GM.add_object(coins,1)
             self.type = '6'

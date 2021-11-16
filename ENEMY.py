@@ -4,7 +4,7 @@ import game_framework
 import GM
 import Map
 
-PIXEL_PER_METER = (10.0 / 0.5)  # 10 pixel 30 cm
+PIXEL_PER_METER = (10.0 / 0.5)  # 10 pixel 50 cm
 MOVE_SPEED_KMPH = 15.0  # Km / Hour
 MOVE_SPEED_MPM = (MOVE_SPEED_KMPH * 1000.0 / 60.0)
 MOVE_SPEED_MPS = (MOVE_SPEED_MPM / 60.0)
