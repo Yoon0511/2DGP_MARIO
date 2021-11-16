@@ -7,12 +7,6 @@ from background import Background
 from ui import Ui
 import Map
 
-my_mario = None
-map = None
-enemys = None
-bg = None
-my_ui = None
-
 def collide(a, b):
     left_a, top_a, right_a, bottom_a = a.get_foot_bb()
     left_b, top_b, right_b, bottom_b = b.get_bb()
@@ -27,26 +21,22 @@ def collide(a, b):
     return True
 
 def enter():
-    global my_mario
-    my_mario = mario()
-    GM.add_object(my_mario,1)
+    GM.my_mario
+    GM.my_mario = mario()
+    GM.add_object(GM.my_mario,1)
 
-    global map
     my_map = MAP()
-    map = my_map.blocks
-    GM.add_objects(map,1)
+    GM.map = my_map.blocks
+    GM.add_objects(GM.map,1)
 
-    global bg
-    bg = Background()
-    GM.add_object(bg,0)
+    GM.bg = Background()
+    GM.add_object(GM.bg,0)
 
-    global enemys
-    enemys = my_map.enemys
-    GM.add_objects(enemys,1)
+    GM.enemys = my_map.enemys
+    GM.add_objects(GM.enemys,1)
 
-    global my_ui
-    my_ui = Ui()
-    GM.add_object(my_ui,1)
+    GM.my_ui = Ui()
+    GM.add_object(GM.my_ui,1)
 
 def exit():
     GM.clear()
@@ -56,29 +46,30 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
-        my_mario.handle_events(events)
+        GM.my_mario.handle_events(events)
 
 def update():
     for game_object in GM.all_objects():
         game_object.update()
 
     foot_collision = 0
-    for block in map:
-        my_mario.Collision_block(block)
-        if not (collide(my_mario,block)):
+    for block in GM.map:
+        GM.my_mario.Collision_block(block)
+        if not (collide(GM.my_mario,block)):
             foot_collision+=1
-    if (foot_collision == len(map)):
-        my_mario.down_mario()
 
-    for block in map:
-        for enemy in enemys:
+    if (foot_collision == len(GM.map)):
+        GM.my_mario.down_mario()
+
+    for block in GM.map:
+        for enemy in GM.enemys:
             enemy.Collsion_block(block)
 
-    for enemy in enemys:
-        if (collide(my_mario,enemy)):
-            my_mario.kill_enemy()
+    for enemy in GM.enemys:
+        if (collide(GM.my_mario,enemy)):
+            GM.my_mario.kill_enemy()
             enemy.set_state('DIE')
-            enemys.remove(enemy)
+            GM.enemys.remove(enemy)
             GM.remove_object(enemy)
 
 

@@ -24,6 +24,10 @@ class Coin:
         self.x,self.y = 0,0
         self.frame = 0
 
+    def add_pos(self,x,y):
+        self.x += x
+        self.y += y
+
     def set_pos(self,x,y):
         self.x,self.y = x,y
 
@@ -34,21 +38,31 @@ class Coin:
         pass
 
     def update(self):
+        self.add_pos(-GM.OFFSET_GAP, 0)
+
         self.frame += (FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
         self.y += COIN_MOVE_SPEED_PPS * game_framework.frame_time
 
         if self.frame >= 3:
             GM.remove_object(self)
+
     def draw(self):
         Coin.coin.clip_draw(int(self.frame) * 60, 0, 60, 60, self.x, self.y)
 
-class mush:
+class Mush:
     image = None
-    
+
     def __init__(self):
-        if mush.image == None:
-            mush.image = load_image('upmush')
+        if Mush.image == None:
+            Mush.image = load_image('upmush.png')
         self.x,self.y = 0,0
+
+    def add_pos(self,x,y):
+        self.x += x
+        self.y += y
+
+    def set_pos(self,x,y):
+        self.x,self.y = x,y
 
     def get_bb(self):
         return self.x - 25, self.y + 25, self.x + 25, self.y - 25
@@ -60,7 +74,20 @@ class mush:
         pass
 
     def update(self):
-        pass
+        self.add_pos(-GM.OFFSET_GAP, 0)
+
+        self.collision()
 
     def draw(self):
-        pass
+        Mush.image.clip_draw(0, 0, 50, 50, self.x, self.y)
+
+    def collision(self):
+        mleft, mtop, mright, mbottom = GM.my_mario.get_bb()
+        ileft, itop, iright, ibottom = self.get_bb()
+
+        if mleft > iright: return False
+        if mright < ileft: return False
+        if mtop < ibottom: return False
+        if mbottom > itop: return False
+
+        GM.remove_object(self)

@@ -1,6 +1,7 @@
 from pico2d import *
 import GM
 from item import Coin
+from item import Mush
 
 class block:
     image = False
@@ -78,11 +79,20 @@ class block:
 
         #draw_rectangle(*self.get_bb())
 
+    def make_coin(self):
+        coins = Coin()
+        coins.set_pos(self.x,self.y+60)
+        GM.add_object(coins,1)
+
+    def make_mush(self):
+        mush = Mush()
+        mush.set_pos(self.x,self.y+50)
+        GM.add_object(mush, 1)
+
     def collision_event(self):
         if self.get_type() == 'bitem':
-            coins = Coin()
-            coins.set_pos(self.x,self.y)
-            GM.add_object(coins,1)
+            print('make_mush')
+            self.make_mush()
             self.type = '6'
             GM.COIN += 1
             GM.SCORE += 100

@@ -4,6 +4,13 @@ objects = [[],[]]
 COIN = 0
 SCORE = 0
 
+my_mario = None
+map = None
+enemys = None
+bg = None
+my_ui = None
+items = []
+
 def add_object(o, layer):
     objects[layer].append(o)
 
@@ -15,7 +22,7 @@ def remove_object(o):
         if o in objects[i]:
             objects[i].remove(o)
             del o
-        break
+            break
 
 def clear():
     for o in all_objects():
