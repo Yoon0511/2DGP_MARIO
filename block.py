@@ -76,7 +76,7 @@ class block:
         elif self.type == 'bitem':
             block.bitem.draw(self.x, self.y, 50, 50)
 
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
 
     def collision_event(self):
         if self.get_type() == 'bitem':
@@ -85,3 +85,4 @@ class block:
             GM.add_object(coins,1)
             self.type = '6'
             GM.COIN += 1
+            GM.SCORE += 100

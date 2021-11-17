@@ -19,3 +19,4 @@ class Ui:
     def draw(self):
         self.font.draw(GM.GAME_WIDTH * 0.8,GM.GAME_HEIGHT*0.9,'TIME: %3.2f' % self.time,(255,255,255))
         self.font.draw(GM.GAME_WIDTH * 0.15, GM.GAME_HEIGHT * 0.9, 'COIN: %d' % GM.COIN, (255, 255, 255))
+        self.font.draw(GM.GAME_WIDTH * 0.4, GM.GAME_HEIGHT * 0.9, 'SCORE: %d' % GM.SCORE, (255, 255, 255))

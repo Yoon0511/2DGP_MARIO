@@ -157,8 +157,8 @@ class mario :
         elif self.state['IDLE']:
             self.draw_idle()
 
-        draw_rectangle(*self.get_bb())
-        draw_rectangle(*self.get_foot_bb())
+        #draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_foot_bb())
 
     def Collision_block(self,block):
         mleft, mtop, mright, mbottom = self.get_bb()
@@ -223,3 +223,4 @@ class mario :
         self.dropSpeed = 0
         self.accel = -5
         self.dropSpeed = 200
+        GM.SCORE += 300
