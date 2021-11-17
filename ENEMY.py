@@ -2,6 +2,7 @@ from pico2d import *
 import random
 import game_framework
 import GM
+import Map
 
 PIXEL_PER_METER = (10.0 / 0.5)  # 10 pixel 30 cm
 MOVE_SPEED_KMPH = 15.0  # Km / Hour
@@ -15,6 +16,7 @@ class Enemy:
         self.type = 'G'
         self.Gumbaimg = load_image('Gumba.png')
         self.Turtleimg = load_image('turtle.png')
+        self.GDIE = load_image('G_DIE.png')
         #self.dir = random.randint(0,1)
         self.dir = 0
         self.movespeed = 100
@@ -24,10 +26,14 @@ class Enemy:
         self.gravity = -12.8
         self.frametime = 0
         self.accel = 0
+        self.state = 'LIVE'
+        self.timer = 0
 
     def move(self):
         pass
 
+    def set_state(self,state):
+        self.state = state
 
     def get_pos(self):
         return self.x,self.y
@@ -51,7 +57,7 @@ class Enemy:
         self.add_pos(-GM.OFFSET_GAP, 0)
         if self.x <= -100:
             GM.remove_object(self)
-        
+
         if self.x > GM.GAME_WIDTH: return
 
         if self.dir == 0:  # 왼쪽
@@ -67,16 +73,23 @@ class Enemy:
 
         self.y += self.dropSpeed * game_framework.frame_time
 
-
-
     def draw(self):
         if self.type == 'G':
-            self.Gumbaimg.draw(self.x,self.y)
+            if self.state == 'LIVE':
+                self.Gumbaimg.draw(self.x,self.y)
+            elif self.state == 'DIE':
+                self.Gumbaimg.clip_composite_draw(0, 0, 50, 50, 3.141592, '', self.x, self.y, 50, 50)
         if self.type == 'T':
-            if self.dir == 0: # 왼쪽
-                self.Turtleimg.clip_draw(0,0,self.weith,self.height,self.x,self.y)
-            elif self.dir == 1: # 오른쪽
-                self.Turtleimg.clip_draw(self.weith,0,self.weith,self.height,self.x,self.y)
+            if self.state == 'LIVE':
+                if self.dir == 0: # 왼쪽
+                    self.Turtleimg.clip_draw(0,0,self.weith,self.height,self.x,self.y)
+                elif self.dir == 1: # 오른쪽
+                    self.Turtleimg.clip_draw(self.weith,0,self.weith,self.height,self.x,self.y)
+            elif self.state == 'DIE':
+                if self.dir == 0: # 왼쪽
+                    self.Turtleimg.clip_composite_draw(0, 0, 50, 50, 3.141592, 'h', self.x, self.y, 50, 50)
+                elif self.dir == 1: # 오른쪽
+                    self.Turtleimg.clip_composite_draw(0, 0, 50, 50, 3.141592, '', self.x, self.y, 50, 50)
 
         #eleft, etop, eright, ebottom = self.get_bb()
         #draw_rectangle(*self.get_bb())

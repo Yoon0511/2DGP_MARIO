@@ -21,6 +21,7 @@ def collide(a, b):
     if right_a < left_b: return False
     if top_a < bottom_b: return False
     if bottom_a > top_b: return False
+
     return True
 
 def enter():
@@ -66,6 +67,13 @@ def update():
     for block in map:
         for enemy in enemys:
             enemy.Collsion_block(block)
+
+    for enemy in enemys:
+        if (collide(my_mario,enemy)):
+            my_mario.kill_enemy()
+            enemy.set_state('DIE')
+            enemys.remove(enemy)
+            GM.remove_object(enemy)
 
 
 def draw():

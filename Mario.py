@@ -35,7 +35,7 @@ class mario :
         return self.x - 25,self.y + 25,self.x + 25,self.y - 25
 
     def get_foot_bb(self):
-        return self.x - 25,self.y-24,self.x+25,self.y-25
+        return self.x - 20,self.y-24,self.x+20,self.y-25
 
     def set_addpos(self,x,y):
         self.x += x
@@ -218,3 +218,8 @@ class mario :
 
         self.accel = -20
         self.jump = False
+
+    def kill_enemy(self):
+        self.dropSpeed = 0
+        self.accel = -5
+        self.dropSpeed = 200
