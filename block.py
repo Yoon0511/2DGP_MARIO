@@ -84,3 +84,4 @@ class block:
             coins.set_pos(self.x,self.y)
             GM.add_object(coins,1)
             self.type = '6'
+            GM.COIN += 1

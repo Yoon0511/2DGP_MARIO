@@ -4,12 +4,14 @@ import GM
 from Mario import mario
 from Map import MAP
 from background import Background
+from ui import Ui
 import Map
 
 my_mario = None
 map = None
 enemys = None
 bg = None
+my_ui = None
 
 def collide(a, b):
     left_a, top_a, right_a, bottom_a = a.get_foot_bb()
@@ -41,6 +43,10 @@ def enter():
     global enemys
     enemys = my_map.enemys
     GM.add_objects(enemys,1)
+
+    global my_ui
+    my_ui = Ui()
+    GM.add_object(my_ui,1)
 
 def exit():
     GM.clear()

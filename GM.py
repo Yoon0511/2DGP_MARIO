@@ -1,7 +1,7 @@
 GAME_WIDTH,GAME_HEIGHT = 1280,800
 OFFSET_GAP = 0
 objects = [[],[]]
-
+COIN = 0
 
 def add_object(o, layer):
     objects[layer].append(o)
