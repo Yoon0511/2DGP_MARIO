@@ -1,5 +1,6 @@
 from pico2d import *
 import GM
+from item import Item
 
 class block:
     image = False
@@ -78,4 +79,8 @@ class block:
         draw_rectangle(*self.get_bb())
 
     def collision_event(self):
-        print('block collision')
+        if self.get_type() == 'bitem':
+            coins = Item()
+            coins.set_pos(self.x,self.y)
+            GM.add_object(coins,1)
+            self.type = '6'
