@@ -70,7 +70,11 @@ def update():
             GM.my_mario.kill_enemy()
             enemy.set_state('DIE')
             GM.enemys.remove(enemy)
-            GM.remove_object(enemy)
+            #GM.remove_object(enemy)
+
+    for mush in GM.items:
+        for block in GM.map:
+            mush.Collsion_block(block)
 
 
 def draw():

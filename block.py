@@ -88,6 +88,7 @@ class block:
         mush = Mush()
         mush.set_pos(self.x,self.y+50)
         GM.add_object(mush, 1)
+        GM.items.append(mush)
 
     def collision_event(self):
         if self.get_type() == 'bitem':

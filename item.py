@@ -8,7 +8,7 @@ COIN_MOVE_SPEED_MPM = (COIN_MOVE_SPEED_KMPH * 1000.0 / 60.0)
 COIN_MOVE_SPEED_MPS = (COIN_MOVE_SPEED_MPM / 60.0)
 COIN_MOVE_SPEED_PPS = (COIN_MOVE_SPEED_MPS * PIXEL_PER_METER)
 
-MUSH_MOVE_SPEED_KMPH = 10.0  # Km / Hour
+MUSH_MOVE_SPEED_KMPH = 20.0  # Km / Hour
 MUSH_MOVE_SPEED_MPM = (MUSH_MOVE_SPEED_KMPH * 1000.0 / 60.0)
 MUSH_MOVE_SPEED_MPS = (MUSH_MOVE_SPEED_MPM / 60.0)
 MUSH_MOVE_SPEED_PPS = (MUSH_MOVE_SPEED_MPS * PIXEL_PER_METER)
@@ -56,6 +56,11 @@ class Mush:
         if Mush.image == None:
             Mush.image = load_image('upmush.png')
         self.x,self.y = 0,0
+        self.drop = False
+        self.dropSpeed = 0
+        self.gravity = -12.8
+        self.accel = 0
+        self.dir = 0
 
     def add_pos(self,x,y):
         self.x += x
@@ -67,6 +72,12 @@ class Mush:
     def get_bb(self):
         return self.x - 25, self.y + 25, self.x + 25, self.y - 25
 
+    def get_pos(self):
+        return self.x,self.y
+
+    def chage_dir(self,dir):
+        self.dir = dir
+
     def enter(self):
         pass
 
@@ -76,12 +87,25 @@ class Mush:
     def update(self):
         self.add_pos(-GM.OFFSET_GAP, 0)
 
-        self.collision()
+        if self.dir == 0:  # 왼쪽
+            self.x -= MUSH_MOVE_SPEED_PPS * game_framework.frame_time
+        elif self.dir == 1:  # 오른쪽
+            self.x += MUSH_MOVE_SPEED_PPS * game_framework.frame_time
+
+        if self.drop == True:
+            self.dropSpeed += self.accel
+            self.accel += self.gravity * game_framework.frame_time
+            if self.accel <= -300:
+                self.accel = -300
+
+        self.y += self.dropSpeed * game_framework.frame_time
+
+        self.to_mario_collision()
 
     def draw(self):
         Mush.image.clip_draw(0, 0, 50, 50, self.x, self.y)
 
-    def collision(self):
+    def to_mario_collision(self):
         mleft, mtop, mright, mbottom = GM.my_mario.get_bb()
         ileft, itop, iright, ibottom = self.get_bb()
 
@@ -91,3 +115,63 @@ class Mush:
         if mbottom > itop: return False
 
         GM.remove_object(self)
+        if GM.my_mario.level == 0:
+            GM.my_mario.level = 1
+            GM.my_mario.set_addpos(0,50)
+
+
+    def Collsion_block(self,block):
+        eleft, etop, eright, ebottom = self.get_bb()
+        bleft, btop, bright, bbottom = block.get_bb()
+
+        if ebottom - 50 > btop:
+            self.drop = True
+            return
+        if eleft - 50 > bright : return
+        if eright + 50 < bleft: return
+        if etop + 50 < bbottom: return
+
+
+        if ebottom > btop:
+            self.drop = True
+            return
+        if eleft > bright: return
+        if eright < bleft: return
+        if etop < bbottom: return
+
+
+        mx, my = self.get_pos()
+        bx, by = block.get_pos()
+        l, r, b, t = False, False, False, False
+
+        gapx, gapy = 0, 0
+        # enemy 기준충돌위치
+        if mx >= bx:  # 왼쪽충돌 +
+            gapx = bright - eleft
+            l = True
+        elif mx <= bx:  # 오른쪽충돌 -
+            gapx = eright - bleft
+            r = True
+        if my >= by:  # 아래 충돌 +
+            gapy = btop - ebottom
+            b = True
+        elif my <= by:  # 위 충돌 -
+            gapy = etop - bbottom
+            t = True
+
+        if gapx > gapy:
+            if b == True:
+                # mario.set_addpos(0,gapy + 0.01)
+                if self.drop == True:
+                    self.add_pos(0, gapy)
+                    self.dropSpeed = 0
+                    self.accel = 0
+                    self.drop = False
+        else:
+            if not block.get_type() == '1':
+                if l == True:
+                    self.add_pos(gapx + 0.01, 0)
+                    self.chage_dir(1)
+                if r == True:
+                    self.add_pos(-gapx - 0.01, 0)
+                    self.chage_dir(0)

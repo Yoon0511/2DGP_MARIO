@@ -55,7 +55,7 @@ class Enemy:
 
     def update(self):
         self.add_pos(-GM.OFFSET_GAP, 0)
-        if self.x <= -100:
+        if self.x <= -100 or self.y <= -10:
             GM.remove_object(self)
 
         if self.x > GM.GAME_WIDTH: return
