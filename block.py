@@ -2,7 +2,7 @@ from pico2d import *
 import GM
 from item import Coin
 from item import Mush
-
+from item import Flower
 class block:
     image = False
     b0,b1,b2,b3,b6,bA,bB,bC,bD,bE,bF,bitem = None,None,None,None,None,None,None,None,None,None,None,None
@@ -90,10 +90,14 @@ class block:
         GM.add_object(mush, 1)
         GM.items.append(mush)
 
+    def make_flower(self):
+        flower = Flower()
+        flower.set_pos(self.x,self.y+50)
+        GM.add_object(flower,1)
+
     def collision_event(self):
         if self.get_type() == 'bitem':
-            print('make_mush')
-            self.make_mush()
+            self.make_flower()
             self.type = '6'
             GM.COIN += 1
             GM.SCORE += 100

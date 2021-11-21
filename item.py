@@ -13,9 +13,14 @@ MUSH_MOVE_SPEED_MPM = (MUSH_MOVE_SPEED_KMPH * 1000.0 / 60.0)
 MUSH_MOVE_SPEED_MPS = (MUSH_MOVE_SPEED_MPM / 60.0)
 MUSH_MOVE_SPEED_PPS = (MUSH_MOVE_SPEED_MPS * PIXEL_PER_METER)
 
-TIME_PER_ACTION = 0.6
-ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
-FRAMES_PER_ACTION = 4
+COIN_TIME_PER_ACTION = 0.6
+COIN_ACTION_PER_TIME = 1.0 / COIN_TIME_PER_ACTION
+COIN_FRAMES_PER_ACTION = 4
+
+FLOWER_TIME_PER_ACTION = 0.9
+FLOWER_ACTION_PER_TIME = 1.0 / FLOWER_TIME_PER_ACTION
+FLOWER_FRAMES_PER_ACTION = 4
+
 class Coin:
     coin = None
     def __init__(self):
@@ -40,7 +45,7 @@ class Coin:
     def update(self):
         self.add_pos(-GM.OFFSET_GAP, 0)
 
-        self.frame += (FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
+        self.frame += (COIN_FRAMES_PER_ACTION * COIN_ACTION_PER_TIME * game_framework.frame_time) % 4
         self.y += COIN_MOVE_SPEED_PPS * game_framework.frame_time
 
         if self.frame >= 3:
@@ -48,6 +53,55 @@ class Coin:
 
     def draw(self):
         Coin.coin.clip_draw(int(self.frame) * 60, 0, 60, 60, self.x, self.y)
+
+class Flower:
+    flower = None
+    def __init__(self):
+        if Flower.flower == None:
+            Flower.flower = load_image('flower.png')
+        self.x,self.y = 0,0
+        self.frame = 0
+
+    def get_bb(self):
+        return self.x - 25, self.y + 25, self.x + 25, self.y - 25
+
+    def add_pos(self,x,y):
+        self.x += x
+        self.y += y
+
+    def set_pos(self,x,y):
+        self.x,self.y = x,y
+
+    def enter(self):
+        pass
+
+    def exit(self):
+        pass
+
+    def update(self):
+        self.add_pos(-GM.OFFSET_GAP, 0)
+        self.frame += (FLOWER_FRAMES_PER_ACTION * FLOWER_ACTION_PER_TIME * game_framework.frame_time)
+        self.frame = self.frame % 4
+
+        self.to_mario_collision()
+
+    def draw(self):
+        Flower.flower.clip_draw(int(self.frame) * 50, 0, 50, 50, self.x, self.y)
+
+    def to_mario_collision(self):
+        mleft, mtop, mright, mbottom = GM.my_mario.get_bb()
+        ileft, itop, iright, ibottom = self.get_bb()
+
+        if mleft > iright: return False
+        if mright < ileft: return False
+        if mtop < ibottom: return False
+        if mbottom > itop: return False
+
+        GM.remove_object(self)
+        if GM.my_mario.level < 2:
+            GM.my_mario.level = 2
+            GM.my_mario.set_addpos(0,50)
+            GM.my_mario.height = 70
 
 class Mush:
     image = None
@@ -118,6 +172,7 @@ class Mush:
         if GM.my_mario.level == 0:
             GM.my_mario.level = 1
             GM.my_mario.set_addpos(0,50)
+            GM.my_mario.height = 70
 
 
     def Collsion_block(self,block):

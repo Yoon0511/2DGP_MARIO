@@ -14,9 +14,9 @@ class mario :
         self.presskey = {'LEFT':False,'RIGHT':False}
         self.speed = 250
         self.frame = 0
-        #self.img = load_image('mario.png')
         self.img = load_image('m1.png')
         self.img_man = load_image('mario_man.png')
+        self.img_fireman = load_image('mario_fire.png')
         self.level = 0
         self.walk_frame = 0
         self.idle_frame = 0
@@ -63,9 +63,15 @@ class mario :
                 self.img.clip_draw(self.walk_frame * self.weith,self.height,self.weith,self.height,self.x,self.y)
         if self.level == 1:
             if self.dir == 0:
-                self.img_man.clip_draw(self.walk_frame * self.weith,0,self.weith,self.height + 20,self.x,self.y)
+                self.img_man.clip_draw(self.walk_frame * self.weith,0,self.weith,self.height,self.x,self.y)
             elif self.dir == 1:
-                self.img_man.clip_draw(self.walk_frame * self.weith,self.height + 20,self.weith,self.height + 20,self.x,self.y)
+                self.img_man.clip_draw(self.walk_frame * self.weith,self.height,self.weith,self.height,self.x,self.y)
+        if self.level == 2:
+            if self.dir == 0:
+                self.img_fireman.clip_draw(self.walk_frame * self.weith, 0, self.weith, self.height, self.x, self.y)
+            elif self.dir == 1:
+                self.img_fireman.clip_draw(self.walk_frame * self.weith, self.height, self.weith, self.height, self.x,
+                                       self.y)
 
     def draw_idle(self):
         if self.level == 0:
@@ -75,9 +81,14 @@ class mario :
                 self.img.clip_draw(0,self.height,self.weith,self.height,self.x,self.y)
         if self.level == 1:
             if self.dir == 0:
-                self.img_man.clip_draw(0,0,self.weith,self.height + 20,self.x,self.y)
+                self.img_man.clip_draw(0,0,self.weith,self.height,self.x,self.y)
             elif self.dir == 1:
-                self.img_man.clip_draw(0,self.height + 20,self.weith,self.height + 20,self.x,self.y)
+                self.img_man.clip_draw(0,self.height,self.weith,self.height,self.x,self.y)
+        if self.level == 2:
+            if self.dir == 0:
+                self.img_fireman.clip_draw(0,0,self.weith,self.height,self.x,self.y)
+            elif self.dir == 1:
+                self.img_fireman.clip_draw(0,self.height,self.weith,self.height,self.x,self.y)
 
     def draw_jump(self):
         if self.level == 0:
@@ -87,9 +98,14 @@ class mario :
                 self.img.clip_draw(50, 50, 50, 50, self.x, self.y)
         if self.level == 1:
             if self.dir == 0:
-                self.img_man.clip_draw(50,0,self.weith,self.height + 20,self.x,self.y)
+                self.img_man.clip_draw(50,0,self.weith,self.height,self.x,self.y)
             elif self.dir == 1:
-                self.img_man.clip_draw(50,self.height + 20,self.weith,self.height + 20,self.x,self.y)
+                self.img_man.clip_draw(50,self.height,self.weith,self.height,self.x,self.y)
+        if self.level == 2:
+            if self.dir == 0:
+                self.img_fireman.clip_draw(50,0,self.weith,self.height,self.x,self.y)
+            elif self.dir == 1:
+                self.img_fireman.clip_draw(50,self.height,self.weith,self.height,self.x,self.y)
 
     def handle_events(self,get_events):
         events = get_events
@@ -227,13 +243,11 @@ class mario :
                     self.jump = True
                     self.accel = 0
                     self.dropSpeed = 0
-                    print('1')
                     #self.jump_time = 1.5
                     if self.state['IDLE'] == False:
                         self.set_state(True, False, False)
             if t == True:
                 block.collision_event()
-                print('2')
                 self.dropSpeed = 0
                 self.jump = False
                 self.set_addpos(0, -gapy - 0.01)
