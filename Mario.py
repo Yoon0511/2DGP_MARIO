@@ -1,7 +1,7 @@
 from pico2d import *
 import GM
 import game_framework
-# 마리오 클래스 점프관련 수정필요
+
 class mario :
     TIME_PER_ACTION = 0.1
     ACTION_PER_TIME = 0.3 / TIME_PER_ACTION
@@ -29,6 +29,7 @@ class mario :
         self.jump_time = 1.5
         self.prev_collision = False
         self.now_collision = False
+        self.fireballlist = []
 
     def get_pos(self):
         return self.x,self.y
@@ -128,6 +129,8 @@ class mario :
                         self.dropSpeed = self.jump_power
                         #self.accel = 5
                         self.jump = False
+                elif event.key == SDLK_SPACE:
+                    self.fire_ball()
 
             elif event.type == SDL_KEYUP:
                 if event.key == SDLK_d:
@@ -270,3 +273,126 @@ class mario :
         self.accel = -5
         self.dropSpeed = 200
         GM.SCORE += 300
+
+    def fire_ball(self):
+        fireball = FireBall()
+        if self.dir == 0:
+            fireball.setting(self.x + 20,self.y + (self.height/2)*0.75,self.dir)
+        elif self.dir == 1:
+            fireball.setting(self.x + 20,self.y + (self.height/2)*0.75,self.dir)
+
+        self.fireballlist.append(fireball)
+        GM.add_object(fireball,1)
+
+PIXEL_PER_METER = (10.0 / 0.5)  # 10 pixel 50 cm
+FIRE_BALL_MOVE_SPEED_KMPH = 70.0  # Km / Hour
+FIRE_BALL_SPEED_MPM = (FIRE_BALL_MOVE_SPEED_KMPH * 1000.0 / 60.0)
+FIRE_BALL_SPEED_MPS = (FIRE_BALL_SPEED_MPM / 60.0)
+FIRE_BALL_SPEED_PPS = (FIRE_BALL_SPEED_MPS * PIXEL_PER_METER)
+
+class FireBall: # 20 x 20
+    fireball = None
+    def __init__(self):
+        if FireBall.fireball == None:
+            FireBall.fireball = load_image('fire.png')
+        self.x,self.y = 0,0
+        self.dir = 0
+        self.angle = 0
+        self.drop = True
+        self.dropSpeed = 0
+        self.gravity = -20.5
+        self.accel = 0
+
+    def get_bb(self):
+        return self.x - 10,self.y + 10,self.x + 10, self.y -10
+
+    def setting(self,x,y,dir):
+        self.x,self.y,self.dir = x,y,dir
+
+    def get_pos(self):
+        return self.x,self.y
+
+    def add_pos(self,x,y):
+        self.x += x
+        self.y += y
+
+    def enter(self):
+        pass
+
+    def exit(self):
+        pass
+
+    def update(self):
+        self.add_pos(-GM.OFFSET_GAP, 0)
+
+        if self.dir == 0: #왼쪽
+            self.x += FIRE_BALL_SPEED_PPS * game_framework.frame_time
+        elif self.dir == 1: #오른쪽
+            self.x += FIRE_BALL_SPEED_PPS * game_framework.frame_time * -1
+
+        self.angle += 1000 * game_framework.frame_time
+
+
+        if self.drop == True:
+            self.dropSpeed += self.accel
+            self.accel += self.gravity * game_framework.frame_time
+            if self.accel <= -300:
+                self.accel = -300
+
+        self.y += self.dropSpeed * game_framework.frame_time
+
+    def draw(self):
+        FireBall.fireball.clip_composite_draw(0, 0, 20, 20, self.angle * (3.14 / 180), '', self.x,self.y,20, 20)
+
+    def collision_block(self,block):
+        eleft, etop, eright, ebottom = self.get_bb()
+        bleft, btop, bright, bbottom = block.get_bb()
+
+        if ebottom - 40 > btop:
+            self.drop = True
+            return
+        if eleft - 40 > bright: return
+        if eright + 40 < bleft: return
+        if etop + 40 < bbottom: return
+
+        if ebottom > btop:
+            self.drop = True
+            return
+        if eleft > bright: return
+        if eright < bleft: return
+        if etop < bbottom: return
+
+        mx, my = self.get_pos()
+        bx, by = block.get_pos()
+        l, r, b, t = False, False, False, False
+
+        gapx, gapy = 0, 0
+        # enemy 기준충돌위치
+        if mx >= bx:  # 왼쪽충돌 +
+            gapx = bright - eleft
+            l = True
+        elif mx <= bx:  # 오른쪽충돌 -
+            gapx = eright - bleft
+            r = True
+        if my >= by:  # 아래 충돌 +
+            gapy = btop - ebottom
+            b = True
+        elif my <= by:  # 위 충돌 -
+            gapy = etop - bbottom
+            t = True
+
+        if gapx > gapy:
+            if b == True:
+                # mario.set_addpos(0,gapy + 0.01)
+                if self.drop == True:
+                    self.add_pos(0, gapy)
+                    self.dropSpeed = 150
+                    self.accel = 0
+        else:
+            if not block.get_type() == '1':
+                if l == True:
+                    GM.my_mario.fireballlist.remove(self)
+                    GM.remove_object(self)
+                if r == True:
+                    GM.my_mario.fireballlist.remove(self)
+                    GM.remove_object(self)

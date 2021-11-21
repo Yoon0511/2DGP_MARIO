@@ -55,6 +55,10 @@ def update():
     foot_collision = 0
     for block in GM.map:
         GM.my_mario.Collision_block(block)
+
+        for fireball in GM.my_mario.fireballlist:
+            fireball.collision_block(block)
+
         if not (collide(GM.my_mario,block)):
             foot_collision+=1
 
