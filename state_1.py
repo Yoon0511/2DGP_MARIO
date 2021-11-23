@@ -75,6 +75,8 @@ def update():
             enemy.set_state('DIE')
             GM.enemys.remove(enemy)
             #GM.remove_object(enemy)
+        for fireball in GM.my_mario.fireballlist:
+            fireball.collision_enemy(enemy)
 
     for mush in GM.items:
         for block in GM.map:

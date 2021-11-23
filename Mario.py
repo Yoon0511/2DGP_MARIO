@@ -1,6 +1,7 @@
 from pico2d import *
 import GM
 import game_framework
+from EFFECT import Effect
 
 class mario :
     TIME_PER_ACTION = 0.1
@@ -202,7 +203,7 @@ class mario :
         elif self.state['IDLE']:
             self.draw_idle()
 
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
         #draw_rectangle(*self.get_foot_bb())
 
     def Collision_block(self,block):
@@ -275,11 +276,13 @@ class mario :
         GM.SCORE += 300
 
     def fire_ball(self):
+        if self.level != 2: return
+
         fireball = FireBall()
         if self.dir == 0:
-            fireball.setting(self.x + 20,self.y + (self.height/2)*0.75,self.dir)
+            fireball.setting(self.x + 20,self.y + (self.height//2)*0.7,self.dir)
         elif self.dir == 1:
-            fireball.setting(self.x + 20,self.y + (self.height/2)*0.75,self.dir)
+            fireball.setting(self.x + 20,self.y + (self.height//2)*0.7,self.dir)
 
         self.fireballlist.append(fireball)
         GM.add_object(fireball,1)
@@ -344,6 +347,29 @@ class FireBall: # 20 x 20
     def draw(self):
         FireBall.fireball.clip_composite_draw(0, 0, 20, 20, self.angle * (3.14 / 180), '', self.x,self.y,20, 20)
 
+    def make_effect(self,x,y):
+        effect = Effect()
+        effect.set_pos(x,y)
+        GM.add_object(effect,1)
+
+    def collision_enemy(self,enemy):
+        eleft, etop, eright, ebottom = self.get_bb()
+        bleft, btop, bright, bbottom = enemy.get_bb()
+
+        if ebottom > btop: return
+        if eleft > bright: return
+        if eright < bleft: return
+        if etop < bbottom: return
+
+        self.make_effect(self.x,self.y)
+        GM.SCORE += 300
+        enemy.set_state('DIE')
+        GM.enemys.remove(enemy)
+
+        GM.remove_object(self)
+        GM.my_mario.fireballlist.remove(self)
+
+
     def collision_block(self,block):
         eleft, etop, eright, ebottom = self.get_bb()
         bleft, btop, bright, bbottom = block.get_bb()
@@ -391,8 +417,10 @@ class FireBall: # 20 x 20
         else:
             if not block.get_type() == '1':
                 if l == True:
+                    self.make_effect(self.x, self.y)
                     GM.my_mario.fireballlist.remove(self)
                     GM.remove_object(self)
                 if r == True:
+                    self.make_effect(self.x, self.y)
                     GM.my_mario.fireballlist.remove(self)
                     GM.remove_object(self)
