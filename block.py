@@ -3,6 +3,8 @@ import GM
 from item import Coin
 from item import Mush
 from item import Flower
+import random
+
 class block:
     image = False
     b0,b1,b2,b3,b6,bA,bB,bC,bD,bE,bF,bitem = None,None,None,None,None,None,None,None,None,None,None,None
@@ -80,6 +82,8 @@ class block:
         #draw_rectangle(*self.get_bb())
 
     def make_coin(self):
+        GM.COIN += 1
+        GM.SCORE += 100
         coins = Coin()
         coins.set_pos(self.x,self.y+60)
         GM.add_object(coins,1)
@@ -97,7 +101,13 @@ class block:
 
     def collision_event(self):
         if self.get_type() == 'bitem':
-            self.make_flower()
+            randomitem = random.randint(0,5)
+            if randomitem <= 3:
+                if randomitem == 0:
+                    self.make_coin()
+                elif randomitem == 1:
+                    self.make_mush()
+                elif randomitem == 2:
+                    self.make_flower()
             self.type = '6'
-            GM.COIN += 1
-            GM.SCORE += 100
+

@@ -97,6 +97,7 @@ class Flower:
         if mtop < ibottom: return False
         if mbottom > itop: return False
 
+        GM.SCORE += 200
         GM.remove_object(self)
         if GM.my_mario.level < 2:
             GM.my_mario.level = 2
@@ -168,6 +169,7 @@ class Mush:
         if mtop < ibottom: return False
         if mbottom > itop: return False
 
+        GM.SCORE += 100
         GM.remove_object(self)
         if GM.my_mario.level == 0:
             GM.my_mario.level = 1
