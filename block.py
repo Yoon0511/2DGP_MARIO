@@ -101,7 +101,7 @@ class block:
 
     def collision_event(self):
         if self.get_type() == 'bitem':
-            randomitem = random.randint(0,5)
+            randomitem = random.randint(0,4)
             if randomitem <= 3:
                 if randomitem == 0:
                     self.make_coin()

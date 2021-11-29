@@ -3,7 +3,7 @@ import GM
 import state_1
 import game_framework
 
-name = "StartState"
+name = "looding"
 image = None
 loading_time = 0.0
 def handle_events():
