@@ -18,6 +18,7 @@ class mario :
         self.img = load_image('m1.png')
         self.img_man = load_image('mario_man.png')
         self.img_fireman = load_image('mario_fire.png')
+        self.img_dead = load_image('mario_dead.png')
         self.level = 0
         self.walk_frame = 0
         self.idle_frame = 0

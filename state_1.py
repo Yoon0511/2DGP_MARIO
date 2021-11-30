@@ -71,10 +71,11 @@ def update():
 
     for enemy in GM.enemys:
         if (collide(GM.my_mario,enemy)):
-            GM.my_mario.kill_enemy()
-            enemy.set_state('DIE')
-            GM.enemys.remove(enemy)
-            #GM.remove_object(enemy)
+            if GM.my_mario.jump == False:
+                GM.my_mario.kill_enemy()
+                enemy.set_state('DIE')
+                GM.enemys.remove(enemy)
+                #GM.remove_object(enemy)
         for fireball in GM.my_mario.fireballlist:
             fireball.collision_enemy(enemy)
 
