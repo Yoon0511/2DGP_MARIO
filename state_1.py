@@ -20,8 +20,20 @@ def collide(a, b):
 
     return True
 
+def collide_enmey(a, b):
+    left_a, top_a, right_a, bottom_a = a.get_bb()
+    left_b, top_b, right_b, bottom_b = b.get_bb()
+
+    # if left_a - 25 > left_b: return False
+    # if right_a + 25 < right_b: return False
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
+
+    return True
+
 def enter():
-    GM.my_mario
     GM.my_mario = mario()
     GM.add_object(GM.my_mario,1)
 
@@ -71,11 +83,14 @@ def update():
 
     for enemy in GM.enemys:
         if (collide(GM.my_mario,enemy)):
-            if GM.my_mario.jump == False:
+            if GM.my_mario.jump == False and GM.my_mario.iscollsion == False:
                 GM.my_mario.kill_enemy()
                 enemy.set_state('DIE')
                 GM.enemys.remove(enemy)
                 #GM.remove_object(enemy)
+        if(collide_enmey(GM.my_mario,enemy)):
+            GM.my_mario.collisiontoEenemy()
+
         for fireball in GM.my_mario.fireballlist:
             fireball.collision_enemy(enemy)
 

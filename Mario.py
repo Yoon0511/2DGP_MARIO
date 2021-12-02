@@ -3,6 +3,8 @@ import GM
 import game_framework
 from EFFECT import Effect
 
+invincibility_time = 0.5
+
 class mario :
     TIME_PER_ACTION = 0.1
     ACTION_PER_TIME = 0.3 / TIME_PER_ACTION
@@ -32,20 +34,24 @@ class mario :
         self.prev_collision = False
         self.now_collision = False
         self.fireballlist = []
+        self.die = False
+        self.collision_timer = 0
+        self.iscollsion = False
+        self.fireball_cooltime = 0.5
 
     def get_pos(self):
         return self.x,self.y
 
     def get_bb(self):
         if self.level == 0:
-            return self.x - 25,self.y + 25,self.x + 25,self.y - 25
-        else:
-            return self.x - 25, self.y + 35, self.x + 25, self.y - 35
+            return self.x - 25,self.y + 25,self.x + 25,self.y - 20
+        elif self.level == 1 or self.level == 2:
+            return self.x - 25, self.y + 35, self.x + 25, self.y - 30
 
     def get_foot_bb(self):
         if self.level == 0:
             return self.x - 20,self.y-24,self.x+20,self.y-25
-        else:
+        elif self.level == 1 or self.level == 2:
             return self.x - 20, self.y - 34, self.x + 20, self.y - 34
 
     def set_addpos(self,x,y):
@@ -196,6 +202,16 @@ class mario :
         else:
             GM.OFFSET_GAP = 0
 
+        #충돌시 invincibility_time동안 무적
+        if self.iscollsion == True:
+            self.collision_timer += game_framework.frame_time
+            if self.collision_timer >= invincibility_time:
+                self.collision_timer = 0
+                self.iscollsion = False
+
+        if self.fireball_cooltime <= 0.5:
+            self.fireball_cooltime += game_framework.frame_time
+
     def draw(self):
         if self.state['JUMP']:
             self.draw_jump()
@@ -271,6 +287,7 @@ class mario :
         self.jump = False
 
     def kill_enemy(self):
+        self.set_addpos(0,2)
         self.dropSpeed = 0
         self.accel = -5
         self.dropSpeed = 200
@@ -278,6 +295,8 @@ class mario :
 
     def fire_ball(self):
         if self.level != 2: return
+        if self.fireball_cooltime < 0.5 : return
+        self.fireball_cooltime = 0
 
         fireball = FireBall()
         if self.dir == 0:
@@ -287,6 +306,20 @@ class mario :
 
         self.fireballlist.append(fireball)
         GM.add_object(fireball,1)
+
+    def collisiontoEenemy(self):
+        if self.iscollsion == True : return
+
+        self.iscollsion = True
+        level = self.level
+        level -= 1
+        if level <= -1:
+            self.die = True
+        else:
+            self.level = level
+            if self.level == 0:
+                self.height = 50
+
 
 PIXEL_PER_METER = (10.0 / 0.5)  # 10 pixel 50 cm
 FIRE_BALL_MOVE_SPEED_KMPH = 70.0  # Km / Hour
