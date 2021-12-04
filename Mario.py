@@ -1,6 +1,7 @@
 from pico2d import *
 import GM
 import game_framework
+import Looding
 from EFFECT import Effect
 
 invincibility_time = 0.5
@@ -31,13 +32,12 @@ class mario :
         self.jump_power,self.gravity = 500,-12.8
         self.accel = 0
         self.jump_time = 1.5
-        self.prev_collision = False
-        self.now_collision = False
         self.fireballlist = []
         self.die = False
         self.collision_timer = 0
         self.iscollsion = False
         self.fireball_cooltime = 0.5
+        self.die_time = 0
 
     def get_pos(self):
         return self.x,self.y
@@ -115,6 +115,9 @@ class mario :
                 self.img_fireman.clip_draw(50,0,self.weith,self.height,self.x,self.y)
             elif self.dir == 1:
                 self.img_fireman.clip_draw(50,self.height,self.weith,self.height,self.x,self.y)
+
+    def draw_die(self):
+        self.img_dead.clip_draw(0,0,self.weith,self.height,self.x,self.y)
 
     def handle_events(self,get_events):
         events = get_events
@@ -209,10 +212,22 @@ class mario :
                 self.collision_timer = 0
                 self.iscollsion = False
 
+        #불덩이 쿨타임
         if self.fireball_cooltime <= 0.5:
             self.fireball_cooltime += game_framework.frame_time
 
+        #사망시 1초뒤 재시작
+        if self.die == True:
+            self.die_time += game_framework.frame_time
+            if self.die_time >= 1.0:
+                self.die_time = 0
+                game_framework.change_state(Looding)
+
     def draw(self):
+        if self.die == True:
+            self.draw_die()
+            return
+
         if self.state['JUMP']:
             self.draw_jump()
         elif self.state['WALK']:
@@ -220,10 +235,13 @@ class mario :
         elif self.state['IDLE']:
             self.draw_idle()
 
+
         #draw_rectangle(*self.get_bb())
         #draw_rectangle(*self.get_foot_bb())
 
     def Collision_block(self,block):
+        if self.die == True : return
+
         mleft, mtop, mright, mbottom = self.get_bb()
         bleft, btop, bright, bbottom = block.get_bb()
 
@@ -315,6 +333,10 @@ class mario :
         level -= 1
         if level <= -1:
             self.die = True
+            self.set_addpos(0, 2)
+            self.dropSpeed = 0
+            self.accel = -5
+            self.dropSpeed = 200
         else:
             self.level = level
             if self.level == 0:

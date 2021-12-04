@@ -34,12 +34,12 @@ def collide_enmey(a, b):
     return True
 
 def enter():
-    GM.my_mario = mario()
-    GM.add_object(GM.my_mario,1)
-
     my_map = MAP()
     GM.map = my_map.blocks
     GM.add_objects(GM.map,1)
+
+    GM.my_mario = mario()
+    GM.add_object(GM.my_mario, 1)
 
     GM.bg = Background()
     GM.add_object(GM.bg,0)
