@@ -173,7 +173,7 @@ class Mush:
         GM.remove_object(self)
         if GM.my_mario.level == 0:
             GM.my_mario.level = 1
-            GM.my_mario.set_addpos(0,50)
+            GM.my_mario.set_addpos(0,20)
             GM.my_mario.height = 70
 
 

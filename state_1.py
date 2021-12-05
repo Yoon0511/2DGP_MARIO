@@ -34,9 +34,8 @@ def collide_enmey(a, b):
     return True
 
 def enter():
-    my_map = MAP()
-    GM.map = my_map.blocks
-    GM.add_objects(GM.map,1)
+    GM.map = MAP()
+    GM.add_objects(GM.map.blocks,1)
 
     GM.my_mario = mario()
     GM.add_object(GM.my_mario, 1)
@@ -44,13 +43,14 @@ def enter():
     GM.bg = Background()
     GM.add_object(GM.bg,0)
 
-    GM.enemys = my_map.enemys
+    GM.enemys = GM.map.enemys
     GM.add_objects(GM.enemys,1)
 
     GM.my_ui = Ui()
     GM.add_object(GM.my_ui,1)
 
 def exit():
+    GM.SCORE,GM.COIN = 0,0
     GM.clear()
 
 def handle_events():
@@ -65,7 +65,7 @@ def update():
         game_object.update()
 
     foot_collision = 0
-    for block in GM.map:
+    for block in GM.map.blocks:
         GM.my_mario.Collision_block(block)
 
         for fireball in GM.my_mario.fireballlist:
@@ -74,10 +74,10 @@ def update():
         if not (collide(GM.my_mario,block)):
             foot_collision+=1
 
-    if (foot_collision == len(GM.map)):
+    if (foot_collision == len(GM.map.blocks)):
         GM.my_mario.down_mario()
 
-    for block in GM.map:
+    for block in GM.map.blocks:
         for enemy in GM.enemys:
             enemy.Collsion_block(block)
 
@@ -95,7 +95,7 @@ def update():
             fireball.collision_enemy(enemy)
 
     for mush in GM.items:
-        for block in GM.map:
+        for block in GM.map.blocks:
             mush.Collsion_block(block)
 
 

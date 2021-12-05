@@ -25,8 +25,15 @@ def remove_object(o):
             break
 
 def clear():
-    for o in all_objects():
-        del o
+    for _ in all_objects():
+        del _
+
+    for l in objects:
+        l.clear()
+
+def destroy():
+    clear()
+    objects.clear()
 
 def all_objects():
     for i in range(len(objects)):

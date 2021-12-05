@@ -2,6 +2,7 @@ from pico2d import *
 import GM
 import game_framework
 import Looding
+import title
 from EFFECT import Effect
 
 invincibility_time = 0.5
@@ -44,15 +45,15 @@ class mario :
 
     def get_bb(self):
         if self.level == 0:
-            return self.x - 25,self.y + 25,self.x + 25,self.y - 20
+            return self.x - 22,self.y + 25,self.x + 22,self.y - 20
         elif self.level == 1 or self.level == 2:
-            return self.x - 25, self.y + 35, self.x + 25, self.y - 30
+            return self.x - 22, self.y + 35, self.x + 22, self.y - 30
 
     def get_foot_bb(self):
         if self.level == 0:
-            return self.x - 20,self.y-24,self.x+20,self.y-25
+            return self.x - 17,self.y-24,self.x + 17,self.y-25
         elif self.level == 1 or self.level == 2:
-            return self.x - 20, self.y - 34, self.x + 20, self.y - 34
+            return self.x - 17, self.y - 34, self.x + 17, self.y - 34
 
     def set_addpos(self,x,y):
         self.x += x
@@ -220,8 +221,9 @@ class mario :
         if self.die == True:
             self.die_time += game_framework.frame_time
             if self.die_time >= 1.0:
+                self.die = False
                 self.die_time = 0
-                game_framework.change_state(Looding)
+                game_framework.change_state(title)
 
     def draw(self):
         if self.die == True:
@@ -236,8 +238,8 @@ class mario :
             self.draw_idle()
 
 
-        #draw_rectangle(*self.get_bb())
-        #draw_rectangle(*self.get_foot_bb())
+        draw_rectangle(*self.get_bb())
+        draw_rectangle(*self.get_foot_bb())
 
     def Collision_block(self,block):
         if self.die == True : return
@@ -305,7 +307,7 @@ class mario :
         self.jump = False
 
     def kill_enemy(self):
-        self.set_addpos(0,2)
+        self.set_addpos(0,5)
         self.dropSpeed = 0
         self.accel = -5
         self.dropSpeed = 200
