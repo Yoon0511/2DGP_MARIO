@@ -100,6 +100,7 @@ class Flower:
         GM.SCORE += 200
         GM.remove_object(self)
         if GM.my_mario.level < 2:
+            GM.sound.play_level_up_bgm(30)
             GM.my_mario.level = 2
             GM.my_mario.set_addpos(0,50)
             GM.my_mario.height = 70
@@ -172,6 +173,7 @@ class Mush:
         GM.SCORE += 100
         GM.remove_object(self)
         if GM.my_mario.level == 0:
+            GM.sound.play_level_up_bgm(30)
             GM.my_mario.level = 1
             GM.my_mario.set_addpos(0,20)
             GM.my_mario.height = 70

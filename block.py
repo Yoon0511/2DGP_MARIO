@@ -82,6 +82,7 @@ class block:
         #draw_rectangle(*self.get_bb())
 
     def make_coin(self):
+        GM.sound.play_coin_bgm(10)
         GM.COIN += 1
         GM.SCORE += 100
         coins = Coin()

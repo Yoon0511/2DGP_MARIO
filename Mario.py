@@ -137,6 +137,7 @@ class mario :
                     self.presskey['LEFT'] = True
                 elif event.key == SDLK_w:
                     if self.jump == True:
+                        GM.sound.play_jump_bgm(10)
                         self.set_state(False,False,True)
                         self.dropSpeed = self.jump_power
                         #self.accel = 5
@@ -220,7 +221,7 @@ class mario :
         #사망시 1초뒤 재시작
         if self.die == True:
             self.die_time += game_framework.frame_time
-            if self.die_time >= 1.0:
+            if self.die_time >= 2.5:
                 self.die = False
                 self.die_time = 0
                 game_framework.change_state(title)
@@ -307,6 +308,7 @@ class mario :
         self.jump = False
 
     def kill_enemy(self):
+        GM.sound.play_enemy_die_bgm(10)
         self.set_addpos(0,5)
         self.dropSpeed = 0
         self.accel = -5
@@ -318,6 +320,7 @@ class mario :
         if self.fireball_cooltime < 0.5 : return
         self.fireball_cooltime = 0
 
+        GM.sound.play_fire_ball_bgm(10)
         fireball = FireBall()
         if self.dir == 0:
             fireball.setting(self.x + 20,self.y + (self.height//2)*0.7,self.dir)
@@ -334,11 +337,12 @@ class mario :
         level = self.level
         level -= 1
         if level <= -1:
+            GM.sound.play_mario_die_bgm(10)
             self.die = True
             self.set_addpos(0, 2)
             self.dropSpeed = 0
             self.accel = -5
-            self.dropSpeed = 200
+            self.dropSpeed = 300
         else:
             self.level = level
             if self.level == 0:
@@ -419,6 +423,7 @@ class FireBall: # 20 x 20
         if eright < bleft: return
         if etop < bbottom: return
 
+        GM.sound.play_enemy_die_bgm(10)
         self.make_effect(self.x,self.y)
         GM.SCORE += 300
         enemy.set_state('DIE')
