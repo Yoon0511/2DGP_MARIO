@@ -6,6 +6,7 @@ from Map import MAP
 from background import Background
 from ui import Ui
 import Map
+from SOUND import Sound
 
 def collide(a, b):
     left_a, top_a, right_a, bottom_a = a.get_foot_bb()

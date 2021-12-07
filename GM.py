@@ -10,6 +10,7 @@ enemys = None
 bg = None
 my_ui = None
 items = []
+sound = None
 
 def add_object(o, layer):
     objects[layer].append(o)

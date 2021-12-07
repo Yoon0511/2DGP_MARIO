@@ -1,9 +1,9 @@
 import random
-
 from pico2d import *
 import GM
 import Looding
 import game_framework
+from SOUND import Sound
 
 name = "title"
 image = None
@@ -27,6 +27,8 @@ def enter():
     global image,font
     image = load_image("title.png")
     font = load_font('myfont.TTF', 40)
+    GM.sound = Sound()
+    GM.sound.play_main_bgm(10)
 
 def exit():
     pass
