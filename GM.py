@@ -1,10 +1,11 @@
 GAME_WIDTH,GAME_HEIGHT = 1280,800
 OFFSET_GAP = 0
 objects = [[],[]]
-COIN = 50
-SCORE = 1240
+COIN = 0
+SCORE = 0
 STAGE_CLEAR = False
-PLAY_TIME = 30.5
+PLAY_TIME = 0.0
+ITEM_COUNT = 0
 
 my_mario = None
 map = None

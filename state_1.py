@@ -35,6 +35,9 @@ def collide_enmey(a, b):
     return True
 
 def enter():
+    GM.COIN, GM.SCORE, GM.PLAY_TIME,GM.ITEM_COUNT = 0, 0, 0.0,0
+    GM.sound.stop_main_bgm()
+
     GM.map = MAP()
     GM.add_objects(GM.map.blocks,1)
 

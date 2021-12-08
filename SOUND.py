@@ -15,6 +15,9 @@ class Sound:
         self.main_bgm.repeat_play()
         self.main_bgm.set_volume(volum)
 
+    def stop_main_bgm(self):
+        self.main_bgm.stop()
+
     def play_coin_bgm(self,volum):
         self.coin_bgm.play(1)
         self.coin_bgm.set_volume(volum)

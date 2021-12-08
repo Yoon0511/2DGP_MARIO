@@ -30,7 +30,7 @@ def enter():
     GM.sound.play_clear_bgm(10)
 
 def exit():
-    pass
+    GM.COIN,GM.SCORE,GM.PLAY_TIME = 0,0,0.0
 
 def update():
     global time,coin,score,loading_time

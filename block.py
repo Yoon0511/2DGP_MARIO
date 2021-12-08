@@ -102,7 +102,14 @@ class block:
 
     def collision_event(self):
         if self.get_type() == 'bitem':
-            if GM.my_mario.level == 2:
+            if GM.ITEM_COUNT == 0:
+                self.make_mush()
+                GM.ITEM_COUNT += 1
+            elif GM.ITEM_COUNT == 1:
+                self.make_flower()
+                GM.ITEM_COUNT +=1
+
+            elif GM.my_mario.level == 2:
                 self.make_coin()
             else:
                 randomitem = random.randint(0,3)

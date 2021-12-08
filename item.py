@@ -97,7 +97,7 @@ class Flower:
         if mtop < ibottom: return False
         if mbottom > itop: return False
 
-        GM.SCORE += 200
+        GM.SCORE += 50
         GM.remove_object(self)
         if GM.my_mario.level < 2:
             GM.sound.play_level_up_bgm(30)

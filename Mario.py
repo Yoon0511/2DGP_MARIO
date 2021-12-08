@@ -3,6 +3,7 @@ import GM
 import game_framework
 import Looding
 import title
+import RESULT
 from EFFECT import Effect
 
 invincibility_time = 0.5
@@ -224,7 +225,15 @@ class mario :
             if self.die_time >= 2.5:
                 self.die = False
                 self.die_time = 0
-                game_framework.change_state(title)
+                game_framework.change_state(Looding)
+
+        if self.y <= -15 and self.die == False:
+            GM.sound.play_mario_die_bgm(10)
+            self.die = True
+            self.set_addpos(0, 2)
+            self.dropSpeed = 0
+            self.accel = -5
+            self.dropSpeed = 300
 
     def draw(self):
         if self.die == True:
@@ -239,8 +248,8 @@ class mario :
             self.draw_idle()
 
 
-        draw_rectangle(*self.get_bb())
-        draw_rectangle(*self.get_foot_bb())
+        #draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_foot_bb())
 
     def Collision_block(self,block):
         if self.die == True : return
@@ -256,6 +265,7 @@ class mario :
         #골인지점도달시
         if block.type == 'F':
             GM.STAGE_CLEAR = True
+            game_framework.change_state(RESULT)
 
 
         #if mleft <= bright and mtop >= bbottom and mright > bleft and mbottom < btop:
@@ -294,10 +304,11 @@ class mario :
                     if self.state['IDLE'] == False:
                         self.set_state(True, False, False)
             if t == True:
+                self.set_addpos(0, -gapy - 1)
                 block.collision_event()
                 self.dropSpeed = 0
                 self.jump = False
-                self.set_addpos(0, -gapy - 0.01)
+
         else:
             if not block.get_type() == '1':
                 if l == True:
@@ -318,7 +329,7 @@ class mario :
         self.dropSpeed = 0
         self.accel = -5
         self.dropSpeed = 200
-        GM.SCORE += 300
+        GM.SCORE += 200
 
     def fire_ball(self):
         if self.level != 2: return
