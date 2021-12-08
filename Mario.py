@@ -253,6 +253,11 @@ class mario :
         if mtop < bbottom: return False
         if mbottom > btop: return False
 
+        #골인지점도달시
+        if block.type == 'F':
+            GM.STAGE_CLEAR = True
+
+
         #if mleft <= bright and mtop >= bbottom and mright > bleft and mbottom < btop:
         mx, my = self.get_pos()
         bx, by = block.get_pos()
@@ -278,9 +283,9 @@ class mario :
                 # mario.set_addpos(0,gapy + 0.01)
                 if self.jump == False:
                     if self.level == 0:
-                        self.set_addpos(0, gapy - 0.1)
+                        self.set_addpos(0, gapy + 3)
                     else:
-                        self.set_addpos(0, gapy - 1.0)
+                        self.set_addpos(0, gapy + 3)
 
                     self.jump = True
                     self.accel = 0

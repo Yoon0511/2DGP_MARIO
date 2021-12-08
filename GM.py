@@ -3,6 +3,7 @@ OFFSET_GAP = 0
 objects = [[],[]]
 COIN = 0
 SCORE = 0
+STAGE_CLEAR = False
 
 my_mario = None
 map = None

@@ -51,7 +51,6 @@ def enter():
     GM.add_object(GM.my_ui,1)
 
 def exit():
-    GM.SCORE,GM.COIN = 0,0
     GM.clear()
 
 def handle_events():
